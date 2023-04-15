@@ -1,0 +1,40 @@
+
+{% load colores_del_sitio %}
+<a class="nav-brand" href="{% url 'home' %}">
+    <img src="{% get_imagen 'logo' %}" />
+  </a>
+
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle menupleca" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="fa-solid fa-gear"></span>
+      Catalogos
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">      
+    <a class="dropdown-item" href="{% url 'list_color' %}">Parametro colores</a>
+    <a class="dropdown-item" href="{% url 'list_imagen' %}">Parametro Imagenes</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle menupleca" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+      <span class="fas fa-birthday-cake"></span>
+      Eventos
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">          
+      <a class="dropdown-item" href="{% url 'eventos' %}">Eventos</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle menupleca" id="dropdownMenuUsuario" data-toggle="dropdown" >
+      <span class="fas fa-user"></span>
+      Usuarios
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuUsuario">           
+    <a class="dropdown-item" href="{% url 'password_change' %}">
+      <span class="fas fa-key"></span>
+      Cambiar la contraseña
+    </a>
+    </div>
+  </div>
+<form class="form-inline navbar-nav ml-auto" action="/action_page.php">
+  <a class="btn btn-danger" href="{% url 'logout' %}">Salir</a>
+</form>

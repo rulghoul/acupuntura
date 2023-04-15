@@ -1,0 +1,10 @@
+/requirements.txt
+/virtual
+
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+/fiestas/fiestas/static
+/fiestas/fiestas/media
