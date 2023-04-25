@@ -14,13 +14,6 @@ class PuntoAcupunturaForm(forms.ModelForm):
             'cvecanal': 'Canal de acupuntura',
             'bandactivo': 'Activo',
         }
-        widgets = {
-            'cvepunto': forms.TextInput(attrs={'class': 'form-control'}),
-            'nompunto': forms.TextInput(attrs={'class': 'form-control'}),
-            'nomlargopunto': forms.TextInput(attrs={'class': 'form-control'}),
-            'cvecanal': forms.Select(attrs={'class': 'form-control'}),
-            'bandactivo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-        }
 
 class PuntoCaracteristicasForm(forms.ModelForm):
     class Meta:
@@ -58,37 +51,3 @@ class PuntoSignificadoForm(forms.ModelForm):
         fields = ('descsignificado', 'bandactivo')
 
 
-
-class PuntoAcupunturaNestedForm(forms.Form):
-    punto_acupuntura = PuntoAcupunturaForm(prefix='punto_acupuntura')
-    punto_caracteristicas = PuntoCaracteristicasForm(prefix='punto_caracteristicas')
-    punto_documentos = PuntoDocumentosForm(prefix='punto_documentos')
-    # y así sucesivamente para cada modelo
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        helper = FormHelper()
-        helper.form_method = 'post'
-        helper.layout = Layout(
-            Div(
-                Fieldset('Punto de acupuntura',
-                    Div(
-                        'punto_acupuntura',
-                        css_class='row',
-                    ),
-                ),
-                Fieldset('Características',
-                    Div(
-                        'punto_caracteristicas',
-                        css_class='row',
-                    ),
-                ),
-                Fieldset('Documentos',
-                    Div(
-                        'punto_documentos',
-                        css_class='row',
-                    ),
-                )
-                # y así sucesivamente para cada modelo
-            )
-        )

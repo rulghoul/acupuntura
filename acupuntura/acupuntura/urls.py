@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 from tema.views import (user_login, home_view,add_color, update_color, list_color, add_imagen, update_imagen, list_imagen)
 
 from puntos.views import (lista_canales, update_canal, add_canal, borra_canal, detalle_canal,
-                          lista_puntos, update_punto, add_punto, borra_punto, detalle_punto)
+                          lista_puntos, actualiza_punto, update_punto, add_punto, borra_punto, detalle_punto)
 
 inicio = ''
 
@@ -37,7 +37,8 @@ path_puntos = [
     path(f'{inicio}lista_puntos', lista_puntos.as_view(), name='lista_puntos'),
     path(f'{inicio}add_punto', add_punto.as_view(), name='add_punto'),
     path(f'{inicio}borra_punto/<int:pk>/', borra_punto.as_view(), name='borra_punto'),
-    path(f'{inicio}update_punto/<int:pk>/', update_punto.as_view(), name='update_punto'),
+    path(f'{inicio}update_punto/<int:pk>/', actualiza_punto, name='update_punto'),
+    #path(f'{inicio}update_punto/<int:pk>/', update_punto.as_view, name='update_punto'),
     path(f'{inicio}detalle_punto/<int:pk>/', detalle_punto.as_view(), name='detalle_punto'),
 ]
 

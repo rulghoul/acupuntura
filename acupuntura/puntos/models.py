@@ -48,7 +48,7 @@ class OrganoParteCuerpo(models.Model):
 class PuntoAcupuntura(models.Model):
     cvepunto =  models.CharField(db_column='CvePunto', max_length=20)  
     nompunto = models.CharField(db_column='NomPunto', max_length=80)
-    nomlargopunto = RichTextField(db_column='NomLargoPunto', max_length=300)
+    nomlargopunto = models.CharField(db_column='NomLargoPunto', max_length=300)
     cvecanal = models.ForeignKey(CanalAcupuntura, models.DO_NOTHING)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
@@ -122,7 +122,7 @@ class PuntoLocalizacion(models.Model):
 
 class PuntoSignificado(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
-    descsignificado = models.TextField(db_column='DescSignificado')
+    descsignificado = RichTextField(db_column='DescSignificado')
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 

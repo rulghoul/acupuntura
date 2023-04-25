@@ -1,12 +1,24 @@
 from django.shortcuts import render
-from django.shortcuts import  get_object_or_404, redirect
+from django.shortcuts import  get_object_or_404, redirect 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.urls import reverse, reverse_lazy
+from django.http import HttpResponseBadRequest, HttpResponse
+from django.template import loader
+
 # Create your views here.
 
-from .models import CanalAcupuntura, PuntoAcupuntura
-from .forms import PuntoAcupunturaForm, PuntoAcupunturaNestedForm
+from .models import (CanalAcupuntura, PuntoAcupuntura, \
+                     PuntoCaracteristicas, PuntoDocumentos, \
+                     PuntoEnfermedad, PuntoImagenes, \
+                     PuntoImagenLocalizacion, PuntoLocalizacion, \
+                     PuntoSignificado, PuntoSintomatologia, \
+                     PuntoVideos,
+                     )
+from .forms import (PuntoImagenesForm, PuntoCaracteristicasForm, \
+                    PuntoAcupunturaForm, PuntoDocumentosForm, \
+                    PuntoEnfermedadForm, PuntoImagenLocalizacionForm, \
+                    PuntoLocalizacionForm, PuntoSignificadoForm)
 
 class lista_canales(ListView):
     model = CanalAcupuntura
@@ -158,3 +170,57 @@ class borra_punto(DeleteView):
         context['titulo'] = "Borrar Canal"
         context['regresa'] = 'lista_puntos'
         return context   
+    
+# Fomularios de puntos
+
+
+def actualiza_punto(request, pk):
+    template = loader.get_template('actualiza_punto.html')
+    punto = get_object_or_404(PuntoAcupuntura, pk=pk)
+    #instancias de los detalles 
+
+    print(punto.cvecanal, punto.cvepunto, punto.nomlargopunto)
+    significado = punto.puntosignificado_set.first()
+    if request.method == 'GET':
+        form1 = PuntoAcupunturaForm(instance=punto)
+        form2 = PuntoSignificadoForm(instance=significado)
+        form3 = PuntoImagenesForm()
+        form4 = PuntoDocumentosForm()
+        form5 = PuntoImagenLocalizacionForm()
+        form6 = PuntoEnfermedadForm()
+        form7 = PuntoCaracteristicasForm()
+    else:        
+        form1 = PuntoAcupunturaForm(request.POST, instance=punto)
+        form2 = PuntoSignificadoForm(request.POST,instance=significado)
+        form3 = PuntoImagenesForm(request.POST)
+        form4 = PuntoDocumentosForm(request.POST)
+        form5 = PuntoImagenLocalizacionForm(request.POST)
+        form6 = PuntoEnfermedadForm(request.POST)
+        form7 = PuntoCaracteristicasForm(request.POST)
+    
+
+
+    if form1.is_valid():
+        # process form data
+        print(punto)
+    else:
+        print("Fallo la validacion del form1")
+    if form2.is_valid():
+        # process form data
+        print(significado)
+    else:
+        print("Fallo la validacion del form2")
+
+    context = {
+        'form1': form1,
+        'form2': form2,
+        'form3': form3,
+        'form4': form4,
+        'form5': form5,
+        'form6': form6,
+        'form7': form7,
+        'titulo': "Actualiza Punto"
+    }
+
+    return HttpResponse(template.render(context, request))
+
