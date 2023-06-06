@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'simple_history',
     'fontawesomefree',
     'colorfield',
+    'betterforms',
 ]
 
 MIDDLEWARE = [
@@ -72,13 +73,13 @@ WSGI_APPLICATION = "acupuntura.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'salud',
-        'USER': 'rulghoul',
-        'PASSWORD': 'Kenqsduldc843',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
-        'PORT': '3360',
+    'default': {        
+        "ENGINE": os.environ.get("EVENTOS_SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("EVENTOS_SQL_DATABASE", BASE_DIR / "db.sqlite3"),
+        "USER": os.environ.get("EVENTOS_SQL_USER", "user"),
+        "PASSWORD": os.environ.get("EVENTOS_SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("EVENTOS_SQL_HOST", "localhost"),
+        "PORT": os.environ.get("EVENTOS_SQL_PORT", "5432"),
         'OPTIONS': {
             'sql_mode': 'STRICT_TRANS_TABLES',
         },

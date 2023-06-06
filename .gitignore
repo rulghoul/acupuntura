@@ -1,5 +1,5 @@
 /virtual
-
+*acupuntura/static/
 *.log
 *.pot
 *.pyc
