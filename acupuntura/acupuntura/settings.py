@@ -80,9 +80,6 @@ DATABASES = {
         "PASSWORD": os.environ.get("EVENTOS_SQL_PASSWORD", "password"),
         "HOST": os.environ.get("EVENTOS_SQL_HOST", "localhost"),
         "PORT": os.environ.get("EVENTOS_SQL_PORT", "5432"),
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        },
     }
 }
 

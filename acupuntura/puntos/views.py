@@ -18,7 +18,8 @@ from .models import (CanalAcupuntura, PuntoAcupuntura, \
 from .forms import (PuntoImagenesForm, PuntoCaracteristicasForm, \
                     PuntoAcupunturaForm, PuntoDocumentosForm, \
                     PuntoEnfermedadForm, PuntoImagenLocalizacionForm, \
-                    PuntoLocalizacionForm, PuntoSignificadoForm)
+                    PuntoLocalizacionForm, PuntoSignificadoForm, \
+                    PuntoMultiForm)
 
 class lista_canales(ListView):
     model = CanalAcupuntura
@@ -105,7 +106,7 @@ class lista_puntos(ListView):
             'add':"add_punto",
             'add_label':'Nuevo Punto',
             'update':'update_punto',  
-            'detalle':'detalle_punto',
+            'detalle':'update_punto2',
             'borra':'borra_punto',
             'encabezados': {"clave":"CLAVE",
                             "nombre":"NOMBRE", 
@@ -181,35 +182,61 @@ def actualiza_punto(request, pk):
 
     print(punto.cvecanal, punto.cvepunto, punto.nomlargopunto)
     significado = punto.puntosignificado_set.first()
+    imagen = punto.puntoimagenes_set.first()
+    documento = punto.puntodocumentos_set.first()
+    locali = punto.puntolocalizacion_set.first()
+    enfermedad = punto.puntoenfermedad_set.first()
+    caracteristica = punto.puntocaracteristicas_set.first()
+
+    print(significado, documento, imagen, locali, enfermedad, caracteristica)
     if request.method == 'GET':
         form1 = PuntoAcupunturaForm(instance=punto)
+        if form1.is_valid():
+            form1.save()
         form2 = PuntoSignificadoForm(instance=significado)
-        form3 = PuntoImagenesForm()
-        form4 = PuntoDocumentosForm()
-        form5 = PuntoImagenLocalizacionForm()
-        form6 = PuntoEnfermedadForm()
-        form7 = PuntoCaracteristicasForm()
+        if form2.is_valid():
+            form2.save()          
+        form3 = PuntoImagenesForm(instance=imagen)
+        form4 = PuntoDocumentosForm(instance=documento)
+        form5 = PuntoImagenLocalizacionForm(instance=locali)
+        form6 = PuntoEnfermedadForm(instance=enfermedad)
+        form7 = PuntoCaracteristicasForm(instance=caracteristica)
+        if form3.is_valid():
+            form3.save()
+        if form4.is_valid():
+            form4.save()
+        if form5.is_valid():
+            form5.save()
+        if form6.is_valid():
+            form6.save()
+        if form7.is_valid():
+            form7.save()
+            
     else:        
         form1 = PuntoAcupunturaForm(request.POST, instance=punto)
-        form2 = PuntoSignificadoForm(request.POST,instance=significado)
-        form3 = PuntoImagenesForm(request.POST)
-        form4 = PuntoDocumentosForm(request.POST)
-        form5 = PuntoImagenLocalizacionForm(request.POST)
-        form6 = PuntoEnfermedadForm(request.POST)
-        form7 = PuntoCaracteristicasForm(request.POST)
+        form2 = PuntoSignificadoForm(request.POST, instance=significado)
+        form3 = PuntoImagenesForm(request.POST, instance=imagen)
+        form4 = PuntoDocumentosForm(request.POST, instance=documento)
+        form5 = PuntoImagenLocalizacionForm(request.POST, instance=locali)
+        form6 = PuntoEnfermedadForm(request.POST, instance=enfermedad)
+        form7 = PuntoCaracteristicasForm(request.POST, instance=caracteristica)
+
+        if form1.is_valid():
+            form1.save()
+        if form2.is_valid():
+            form2.save()
+        if form3.is_valid():
+            form3.save()
+        if form4.is_valid():
+            form4.save()
+        if form5.is_valid():
+            form5.save()
+        if form6.is_valid():
+            form6.save()
+        if form7.is_valid():
+            form7.save()
     
-
-
-    if form1.is_valid():
-        # process form data
-        print(punto)
-    else:
-        print("Fallo la validacion del form1")
-    if form2.is_valid():
-        # process form data
-        print(significado)
-    else:
-        print("Fallo la validacion del form2")
+    
 
     context = {
         'form1': form1,
@@ -224,3 +251,25 @@ def actualiza_punto(request, pk):
 
     return HttpResponse(template.render(context, request))
 
+class punto_update2(UpdateView):
+    model = PuntoAcupuntura
+    form_class = PuntoMultiForm
+    success_url = reverse_lazy('lista_puntos')
+    template_name = 'catalogos/update.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(punto_update2, self).get_form_kwargs()
+        punto =self.object
+        kwargs.update(instance={
+            'punto_acupuntura': self.object,
+            'punto_caracteristicas': self.object.puntocaracteristicas_set.first(),
+            'punto_significado' : punto.puntosignificado_set.first(),
+            'punto_imagenes' : punto.puntoimagenes_set.first(),
+            'punto_documentos' : punto.puntodocumentos_set.first(),
+            'punto_localizacion' : punto.puntolocalizacion_set.first(),
+            'punto_enfermedad' : punto.puntoenfermedad_set.first(),
+            'punto_caracteristicas' : punto.puntocaracteristicas_set.first(),            
+            'punto_imagen_localizacion': punto.puntoimagenlocalizacion_set.first(),
+        })
+        return kwargs
+    
