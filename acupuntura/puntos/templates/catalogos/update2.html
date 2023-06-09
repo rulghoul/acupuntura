@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<div class="card shadow-lg">
+  <h3 class="card-title">{{ titulo }}</h3>
+  <div class="card-body">
+    <form action="" method="POST">
+        {% csrf_token %}    
+        <!-- Formulario principal -->
+        {{ form|crispy }}
+
+        <!-- Formulario para PuntoCaracteristicas -->
+        {{ form_punto_caracteristicas|crispy }}
+
+        <!-- Formulario para PuntoSignificado -->
+        {{ form_punto_significado|crispy }}
+
+        <!-- Formulario para PuntoImagenes -->
+        {{ form_punto_imagenes|crispy }}
+
+        <!-- Formulario para PuntoDocumentos -->
+        {{ form_punto_documentos|crispy }}
+
+        <!-- Formulario para PuntoLocalizacion -->
+        {{ form_punto_localizacion|crispy }}
+
+        <!-- Formulario para PuntoEnfermedad -->
+        {{ form_punto_enfermedad|crispy }}
+
+        <!-- Formulario para PuntoCaracteristicas -->
+        {{ form_punto_caracteristicas|crispy }}    
+
+        <!-- Formulario para PuntoImagenLocalizacion -->
+        {{ form_punto_imagen_localizacion }}
+        
+        <div class="col text-center">        
+          <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" id="submit-save">
+          <a class="btn btn-danger" href="{{request.META.HTTP_REFERER|escape}}">Regresar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

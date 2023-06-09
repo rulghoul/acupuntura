@@ -197,18 +197,18 @@ def actualiza_punto(request, pk):
         if form2.is_valid():
             form2.save()          
         form3 = PuntoImagenesForm(instance=imagen)
-        form4 = PuntoDocumentosForm(instance=documento)
-        form5 = PuntoImagenLocalizacionForm(instance=locali)
-        form6 = PuntoEnfermedadForm(instance=enfermedad)
-        form7 = PuntoCaracteristicasForm(instance=caracteristica)
         if form3.is_valid():
             form3.save()
+        form4 = PuntoDocumentosForm(instance=documento)
         if form4.is_valid():
             form4.save()
+        form5 = PuntoImagenLocalizacionForm(instance=locali)
         if form5.is_valid():
             form5.save()
+        form6 = PuntoEnfermedadForm(instance=enfermedad)
         if form6.is_valid():
             form6.save()
+        form7 = PuntoCaracteristicasForm(instance=caracteristica)
         if form7.is_valid():
             form7.save()
             
@@ -255,7 +255,7 @@ class punto_update2(UpdateView):
     model = PuntoAcupuntura
     form_class = PuntoMultiForm
     success_url = reverse_lazy('lista_puntos')
-    template_name = 'catalogos/update.html'
+    template_name = 'catalogos/update2.html'
 
     def get_form_kwargs(self):
         kwargs = super(punto_update2, self).get_form_kwargs()
@@ -272,4 +272,17 @@ class punto_update2(UpdateView):
             'punto_imagen_localizacion': punto.puntoimagenlocalizacion_set.first(),
         })
         return kwargs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        punto = self.object
+
+        # Crear instancias de los formularios relacionados
+        context['form_punto_caracteristicas'] = PuntoCaracteristicasForm(instance=punto.puntocaracteristicas_set.first())
+        context['form_punto_significado'] = PuntoSignificadoForm(instance=punto.puntosignificado_set.first())
+        context['form_punto_imagenes'] = PuntoImagenesForm(instance=punto.puntoimagenes_set.first())
+        # Agregar más formularios relacionados aquí
+
+        return context
     
