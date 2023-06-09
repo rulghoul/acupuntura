@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-8%ql#_^_44wy^fdnc9sk2a@0sdvjesgbmy%)yj)j55kpoy*h0!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -71,7 +71,6 @@ WSGI_APPLICATION = "acupuntura.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {        
         "ENGINE": os.environ.get("ACUPUNTURA_SQL_ENGINE", "django.db.backends.sqlite3"),
@@ -80,6 +79,9 @@ DATABASES = {
         "PASSWORD": os.environ.get("ACUPUNTURA_SQL_PASSWORD", "password"),
         "HOST": os.environ.get("ACUPUNTURA_SQL_HOST", "localhost"),
         "PORT": os.environ.get("ACUPUNTURA_SQL_PORT", "5432"),
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
     }
 }
 
@@ -120,10 +122,10 @@ USE_TZ = True
 
 #STATIC_URL = "static/"
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = "static/"
+STATIC_URL = "acupuntura/static/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static') 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'acupuntura/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
 CKEDITOR_BASEPATH =  os.path.join(STATIC_ROOT,"ckeditor/ckeditor/")

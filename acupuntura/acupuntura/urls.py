@@ -10,7 +10,7 @@ from tema.views import (user_login, home_view,add_color, update_color, list_colo
 from puntos.views import (lista_canales, update_canal, add_canal, borra_canal, detalle_canal,
                           lista_puntos, actualiza_punto, update_punto, punto_update2, add_punto, borra_punto, detalle_punto)
 
-inicio = ''
+inicio = 'acupuntura'
 
 path_colores = [
     path(f'{inicio}add_color', add_color.as_view(), name='add_color'),
@@ -44,6 +44,7 @@ path_puntos = [
 
 urlpatterns = [
     path(f'{inicio}', home_view, name='home'),    
+    path(f'{inicio}accounts/profile/', home_view, name='profile'),
     path(f'{inicio}login/', user_login, name='user_login'),
     path(f'{inicio}change-password/', auth_views.PasswordChangeView.as_view()),
     path(f'{inicio}admin/', admin.site.urls),
