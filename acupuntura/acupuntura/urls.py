@@ -10,7 +10,7 @@ from tema.views import (user_login, home_view,add_color, update_color, list_colo
 from puntos.views import (lista_canales, update_canal, add_canal, borra_canal, detalle_canal,
                           lista_puntos, actualiza_punto, update_punto, punto_update2, add_punto, borra_punto, detalle_punto)
 
-inicio = 'acupuntura'
+inicio = ''
 
 path_colores = [
     path(f'{inicio}add_color', add_color.as_view(), name='add_color'),
