@@ -3,6 +3,11 @@
 python3 -m venv virtual
 source virtual/bin/activate
 pip3 install -r requirements.txt
+cd acupuntura
+python3 manage.py migrate
+python3 manage.py createsuperuser
+python3 mage.py loaddata puntos.json
+cd ..
 deactivate
 
 #Crear Usuario y asignar permisos
