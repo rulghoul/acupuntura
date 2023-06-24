@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<script>
+    var anterior = "1";
+    cambia = function (actual) {      
+        if(actual != anterior){
+           // alert(actual + " " + anterior);
+            $('#' + anterior).toggle();
+            $('#' + anterior).parent().removeClass("active");
+            $('#' + actual).toggle();
+            $('#' + actual).parent().addClass("active");
+            anterior = actual;
+        }  
+    }
+</script>
+<div class="card shadow-lg">
+    <h3 class="card-title">{{ titulo }}</h3>
+    <div class="card-body">
+        <form enctype="multipart/form-data" class="container" method="post">
+            {% csrf_token %} {{ form|crispy }}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" id="submit-save">
+                <a class="btn btn-danger" href="{% url 'lista_puntos' %}">Regresar</a>
+            </div>
+
+
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a onclick="cambia('Documentos');">Documentos</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('Imagenes');">Imagen</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('Videos');">Videos</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('Localizacion');">Localizacion</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('ImagenLoc');">Imagen Localizacion</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('Enfermedades');">Enfermedades</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('Significados');">Significado</a></li>
+            <li class="breadcrumb-item"><a onclick="cambia('Caracteristicas');">Caracteristicas</a></li>
+        </ul>
+
+
+        <div  id="Documentos" style="display: none;">
+            {% with named_formsets.documentos as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                    {% csrf_token %} {{ formss|crispy }}
+                {% endfor %}
+
+            {% endwith %}
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+            </div>
+        </div>
+
+        <div  id="Imagenes" style="display: none;">
+            {% with named_formsets.imagenes as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                <div class="row">
+                    <div class="col-4">
+                        {% csrf_token %} {{ formss|crispy }}
+                    </div>
+                    <div class="col-8">
+                        <img src="/media/{{ formss.instance.ligaimagen }}" 
+                        alt="{{ formss.instance.ligaimagen }}" width="500" >
+                    </div>
+                    </div>
+                {% endfor %}
+    
+            {% endwith %}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+            </div>
+        </div>
+
+        <div id="Caracteristicas" style="display: none;">
+            {% with named_formsets.caracteristicas as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                    {% csrf_token %} {{ formss|crispy }}
+                {% endfor %}
+    
+            {% endwith %}
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+            </div>
+        </div>
+
+        <div id="Significados"  style="display: none;">
+            
+            {% with named_formsets.significados as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                    {% csrf_token %} {{ formss|crispy }}
+                {% endfor %}
+    
+            {% endwith %}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+            </div>
+        </div>
+
+        <div id="Enfermedades"  style="display: none;">
+            
+            {% with named_formsets.enfermedades as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                    {% csrf_token %} {{ formss|crispy }}
+                {% endfor %}
+    
+            {% endwith %}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+            </div>
+        </div>
+        <div id="ImagenLoc"  style="display: none;">
+            
+            {% with named_formsets.imagen_localizaciones as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                    {% csrf_token %} {{ formss|crispy }}
+                {% endfor %}
+    
+            {% endwith %}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+            </div>
+        </div>
+
+        <div id="Localizacion"  style="display: none;">
+            {% with named_formsets.localizaciones as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                    {% csrf_token %} {{ formss|crispy }}
+                {% endfor %}
+    
+            {% endwith %}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+            </div>
+        </div>
+
+        <div id="Videos"  style="display: none;">
+            
+            {% with named_formsets.videos as formset %}  
+        
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                <div class="row">
+                    <div class="col-4">
+                        {% csrf_token %} {{ formss|crispy }}
+                    </div>
+                    <div class="col-8">
+                        <iframe width="420" height="315"
+                        src="https://www.youtube.com/embed/{{ formss.instance.ligavideo }}">
+                        </iframe>
+                    </div>
+                </div>
+                {% endfor %}
+    
+            {% endwith %}
+
+            <div class="col text-center">
+                <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+
+{% endblock %}

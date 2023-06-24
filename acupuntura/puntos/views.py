@@ -13,13 +13,20 @@ from .models import (CanalAcupuntura, PuntoAcupuntura, \
                      PuntoEnfermedad, PuntoImagenes, \
                      PuntoImagenLocalizacion, PuntoLocalizacion, \
                      PuntoSignificado, PuntoSintomatologia, \
-                     PuntoVideos,
+                     PuntoVideos, Enfermedad, Sintoma, Sintomatologia, \
+                     OrganoParteCuerpo, 
                      )
 from .forms import (PuntoImagenesForm, PuntoCaracteristicasForm, \
                     PuntoAcupunturaForm, PuntoDocumentosForm, \
                     PuntoEnfermedadForm, PuntoImagenLocalizacionForm, \
                     PuntoLocalizacionForm, PuntoSignificadoForm, \
                     PuntoMultiForm)
+
+from .forms import (PuntoImagenesFormSet, PuntoCaracteristicasFormSet, \
+                    PuntoDocumentosFormSet,  PuntoSignificadoFormSet, \
+                    PuntoEnfermedadFormSet, PuntoImagenLocalizacionFormSet, \
+                    PuntoLocalizacionFormSet, PuntoVideoFormSet\
+                    )
 
 class lista_canales(ListView):
     model = CanalAcupuntura
@@ -106,7 +113,7 @@ class lista_puntos(ListView):
             'add':"add_punto",
             'add_label':'Nuevo Punto',
             'update':'update_punto',  
-            'detalle':'update_punto2',
+            'detalle':'update_punto',
             'borra':'borra_punto',
             'encabezados': {"clave":"CLAVE",
                             "nombre":"NOMBRE", 
@@ -175,114 +182,138 @@ class borra_punto(DeleteView):
 # Fomularios de puntos
 
 
-def actualiza_punto(request, pk):
-    template = loader.get_template('actualiza_punto.html')
-    punto = get_object_or_404(PuntoAcupuntura, pk=pk)
-    #instancias de los detalles 
-
-    print(punto.cvecanal, punto.cvepunto, punto.nomlargopunto)
-    significado = punto.puntosignificado_set.first()
-    imagen = punto.puntoimagenes_set.first()
-    documento = punto.puntodocumentos_set.first()
-    locali = punto.puntolocalizacion_set.first()
-    enfermedad = punto.puntoenfermedad_set.first()
-    caracteristica = punto.puntocaracteristicas_set.first()
-
-    print(significado, documento, imagen, locali, enfermedad, caracteristica)
-    if request.method == 'GET':
-        form1 = PuntoAcupunturaForm(instance=punto)
-        if form1.is_valid():
-            form1.save()
-        form2 = PuntoSignificadoForm(instance=significado)
-        if form2.is_valid():
-            form2.save()          
-        form3 = PuntoImagenesForm(instance=imagen)
-        if form3.is_valid():
-            form3.save()
-        form4 = PuntoDocumentosForm(instance=documento)
-        if form4.is_valid():
-            form4.save()
-        form5 = PuntoImagenLocalizacionForm(instance=locali)
-        if form5.is_valid():
-            form5.save()
-        form6 = PuntoEnfermedadForm(instance=enfermedad)
-        if form6.is_valid():
-            form6.save()
-        form7 = PuntoCaracteristicasForm(instance=caracteristica)
-        if form7.is_valid():
-            form7.save()
-            
-    else:        
-        form1 = PuntoAcupunturaForm(request.POST, instance=punto)
-        form2 = PuntoSignificadoForm(request.POST, instance=significado)
-        form3 = PuntoImagenesForm(request.POST, instance=imagen)
-        form4 = PuntoDocumentosForm(request.POST, instance=documento)
-        form5 = PuntoImagenLocalizacionForm(request.POST, instance=locali)
-        form6 = PuntoEnfermedadForm(request.POST, instance=enfermedad)
-        form7 = PuntoCaracteristicasForm(request.POST, instance=caracteristica)
-
-        if form1.is_valid():
-            form1.save()
-        if form2.is_valid():
-            form2.save()
-        if form3.is_valid():
-            form3.save()
-        if form4.is_valid():
-            form4.save()
-        if form5.is_valid():
-            form5.save()
-        if form6.is_valid():
-            form6.save()
-        if form7.is_valid():
-            form7.save()
-    
-    
-
-    context = {
-        'form1': form1,
-        'form2': form2,
-        'form3': form3,
-        'form4': form4,
-        'form5': form5,
-        'form6': form6,
-        'form7': form7,
-        'titulo': "Actualiza Punto"
-    }
-
-    return HttpResponse(template.render(context, request))
-
-class punto_update2(UpdateView):
+class PuntoInline():
+    form_class = PuntoAcupunturaForm
     model = PuntoAcupuntura
-    form_class = PuntoMultiForm
-    success_url = reverse_lazy('lista_puntos')
-    template_name = 'catalogos/update2.html'
+    template_name = "punto/punto.html"
 
-    def get_form_kwargs(self):
-        kwargs = super(punto_update2, self).get_form_kwargs()
-        punto =self.object
-        kwargs.update(instance={
-            'punto_acupuntura': self.object,
-            'punto_caracteristicas': self.object.puntocaracteristicas_set.first(),
-            'punto_significado' : punto.puntosignificado_set.first(),
-            'punto_imagenes' : punto.puntoimagenes_set.first(),
-            'punto_documentos' : punto.puntodocumentos_set.first(),
-            'punto_localizacion' : punto.puntolocalizacion_set.first(),
-            'punto_enfermedad' : punto.puntoenfermedad_set.first(),
-            'punto_caracteristicas' : punto.puntocaracteristicas_set.first(),            
-            'punto_imagen_localizacion': punto.puntoimagenlocalizacion_set.first(),
-        })
-        return kwargs
-    
+    def form_valid(self, form):
+        named_formsets = self.get_named_formsets()
+        if not all((x.is_valid() for x in named_formsets.values())):
+            return self.render_to_response(self.get_context_data(form=form))
+
+        self.object = form.save()
+
+        for name, formset in named_formsets.items():
+            formset_save_func = getattr(self, f'formset_{name}_valid', None)
+            if formset_save_func is not None:
+                formset_save_func(formset)
+            else:
+                formset.save()
+        return redirect('lista_puntos')
+
+    def formset_imagenes_valid(self, formset):
+        imagenes = formset.save(commit=False) 
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for imagen in imagenes:
+            imagen.cvepunto = self.object
+            imagen.save()
+
+    def formset_documentos_valid(self, formset):
+        documentos = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for documento in documentos:
+            documento.cvepunto = self.object
+            documento.save()
+
+    def formset_caracteristicas_valid(self, formset):
+        caracteristicas = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for caracteristica in caracteristicas:
+            caracteristica.cvepunto = self.object
+            caracteristica.save()    
+                        
+    def formset_significados_valid(self, formset):
+        significados = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for significado in significados:
+            significado.cvepunto = self.object
+            significado.save()
+                                
+    def formset_enfermedades_valid(self, formset):
+        enfermedades = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for enfermedad in enfermedades:
+            enfermedad.cvepunto = self.object
+            enfermedad.save()
+
+    def formset_imagen_localizaciones_valid(self, formset):
+        imagen_localizaciones = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for imagen_localizacion in imagen_localizaciones:
+            imagen_localizacion.cvepunto = self.object
+            imagen_localizacion.save()
+                    
+                    
+    def formset_localizaciones_valid(self, formset):
+        localizaciones = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for localizacion in localizaciones:
+            localizacion.cvepunto = self.object
+            localizacion.save()
+
+    def formset_videos_valid(self, formset):
+        videos = formset.save(commit=False)  
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for video in videos:
+            video.cvepunto = self.object
+            video.save()
+
+class PuntoCreate(PuntoInline, CreateView):
+
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        ctx = super(PuntoCreate, self).get_context_data(**kwargs)
+        ctx['named_formsets'] = self.get_named_formsets()
+        return ctx
 
-        punto = self.object
+    def get_named_formsets(self):
+        if self.request.method == "GET":
+            return {
+                'imagenes': PuntoImagenesFormSet(prefix='imagenes'),
+                'documentos': PuntoDocumentosFormSet(prefix='documentos'),
+                'caracteristicas': PuntoCaracteristicasFormSet(prefix='caracteristicas'),
+                'significados': PuntoSignificadoFormSet(prefix='significados'),
+                'enfermedades': PuntoEnfermedadFormSet(prefix='enfermedades'),
+                'imagen_localizaciones': PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones'),
+                'localizaciones': PuntoLocalizacionFormSet(prefix='localizaciones'),
+                'videos': PuntoVideoFormSet(prefix='videos'),
+            }
+        else:
+            return {
+                'imagenes': PuntoImagenesFormSet(self.request.POST or None, self.request.FILES or None, prefix='imagenes'),
+                'documentos': PuntoDocumentosFormSet(self.request.POST or None, self.request.FILES or None, prefix='documentos'),
+                'caracteristicas': PuntoCaracteristicasFormSet(self.request.POST or None, self.request.FILES or None, prefix='caracteristicas'),
+                'significados': PuntoSignificadoFormSet(self.request.POST or None, self.request.FILES or None, prefix='significados'),
+                'enfermedades': PuntoEnfermedadFormSet(self.request.POST or None, self.request.FILES or None, prefix='enfermedades'),
+                'imagen_localizaciones': PuntoImagenLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, prefix='imagen_localizaciones'),
+                'localizaciones': PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, prefix='localizaciones'),
+                'videos': PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, prefix='videos'),
+            }
 
-        # Crear instancias de los formularios relacionados
-        context['form_punto_caracteristicas'] = PuntoCaracteristicasForm(instance=punto.puntocaracteristicas_set.first())
-        context['form_punto_significado'] = PuntoSignificadoForm(instance=punto.puntosignificado_set.first())
-        context['form_punto_imagenes'] = PuntoImagenesForm(instance=punto.puntoimagenes_set.first())
-        # Agregar más formularios relacionados aquí
 
-        return context
-    
+class PuntoUpdate(PuntoInline, UpdateView):
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PuntoUpdate, self).get_context_data(**kwargs)
+        ctx['named_formsets'] = self.get_named_formsets()
+        return ctx
+
+    def get_named_formsets(self):
+        return {
+            'imagenes': PuntoImagenesFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='imagenes'),
+            'documentos': PuntoDocumentosFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='documentos'),
+            'caracteristicas': PuntoCaracteristicasFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='caracteristicas'),
+            'significados': PuntoSignificadoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='significados'),
+            'enfermedades': PuntoEnfermedadFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='enfermedades'),
+            'imagen_localizaciones': PuntoImagenLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='imagen_localizaciones'),
+            'localizaciones': PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='localizaciones'),
+            'videos': PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='videos'),
+        }

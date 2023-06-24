@@ -70,7 +70,7 @@ class PuntoAcupuntura(models.Model):
 
 
 class PuntoCaracteristicas(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
     desccaracteristicas = RichTextField(db_column='DescCaracteristicas', verbose_name="Caracteristicas")
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
@@ -83,8 +83,8 @@ class PuntoCaracteristicas(models.Model):
 
 
 class PuntoDocumentos(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)     
-    ligadocumento = models.CharField(db_column='LigaDocumento', max_length=255, verbose_name="Documento")
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)     
+    ligadocumento = models.FileField(upload_to="documentos_puntos",db_column='LigaDocumento', max_length=255, verbose_name="Documento")
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -96,8 +96,8 @@ class PuntoDocumentos(models.Model):
 
 
 class PuntoEnfermedad(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)    
-    cveenfermedad = models.ForeignKey(Enfermedad, models.DO_NOTHING)    
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)    
+    cveenfermedad = models.ForeignKey(Enfermedad, models.CASCADE)    
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -109,8 +109,8 @@ class PuntoEnfermedad(models.Model):
 
 
 class PuntoImagenes(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
-    ligaimagen = models.CharField(db_column='LigaImagen', max_length=255)
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+    ligaimagen = models.ImageField(upload_to='images_puntos',db_column='LigaImagen', max_length=255)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -122,7 +122,7 @@ class PuntoImagenes(models.Model):
 
 
 class PuntoImagenLocalizacion(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
     ligaimagen = models.CharField(db_column='LigaImagen', max_length=255)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
@@ -135,8 +135,8 @@ class PuntoImagenLocalizacion(models.Model):
 
 
 class PuntoLocalizacion(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
-    desclocalizacion = models.TextField(db_column='DescLocalizacion', verbose_name="Localizacion")
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+    desclocalizacion = RichTextField(db_column='DescLocalizacion', verbose_name="Localizacion")
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -148,7 +148,7 @@ class PuntoLocalizacion(models.Model):
 
 
 class PuntoSignificado(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
     descsignificado = RichTextField(db_column='DescSignificado', verbose_name="Significado")
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
@@ -161,7 +161,7 @@ class PuntoSignificado(models.Model):
 
 
 class PuntoSintomatologia(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
     nomorgpartecuerpo = models.ForeignKey(OrganoParteCuerpo, models.DO_NOTHING)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
@@ -175,7 +175,7 @@ class PuntoSintomatologia(models.Model):
 
 
 class PuntoVideos(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
     ligavideo = models.CharField(db_column='LigaVideo', max_length=255)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)

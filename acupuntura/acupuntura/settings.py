@@ -122,10 +122,10 @@ USE_TZ = True
 
 #STATIC_URL = "static/"
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = "acupuntura/static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static') 
 
-MEDIA_URL = 'acupuntura/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
 CKEDITOR_BASEPATH =  os.path.join(STATIC_ROOT,"ckeditor/ckeditor/")

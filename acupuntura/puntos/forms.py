@@ -2,7 +2,9 @@ from django import forms
 from django.forms import inlineformset_factory, BaseFormSet, formset_factory
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Div, HTML
-from .models import PuntoAcupuntura, PuntoCaracteristicas, PuntoDocumentos, PuntoEnfermedad, PuntoImagenes, PuntoImagenLocalizacion, PuntoLocalizacion, PuntoSignificado
+from .models import (PuntoAcupuntura, PuntoCaracteristicas, PuntoDocumentos, 
+                     PuntoEnfermedad, PuntoImagenes, PuntoImagenLocalizacion, 
+                     PuntoLocalizacion, PuntoSignificado, PuntoVideos)
 
 from betterforms.multiform import MultiModelForm
 from collections import OrderedDict
@@ -23,52 +25,82 @@ class PuntoCaracteristicasForm(forms.ModelForm):
     class Meta:
         model = PuntoCaracteristicas
         fields = ('desccaracteristicas', )
-    
-class PuntoCaracteristicasFormSet(BaseFormSet):
-    min_num=1
-    max_num=4
-    extra=2
-    renderer=True
-    form = formset_factory(PuntoCaracteristicasForm)
-    use_required_attribute = True
-    def __init__(self, *args, **kwargs):
-        self.instance = kwargs.pop('instance')
-        super().__init__(*args, **kwargs)
 
-    def _construct_form(self, i, **kwargs):
-        kwargs['instance'] = self.instance
-        return super()._construct_form(i, **kwargs)
+PuntoCaracteristicasFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoCaracteristicas, form=PuntoCaracteristicasForm,
+    extra=1, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
+)
 
 class PuntoDocumentosForm(forms.ModelForm):
     class Meta:
         model = PuntoDocumentos
         fields = ('ligadocumento', )
 
+PuntoDocumentosFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoDocumentos, form=PuntoDocumentosForm,
+    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+)
+
 class PuntoEnfermedadForm(forms.ModelForm):
     class Meta:
         model = PuntoEnfermedad
         fields = ('cveenfermedad', )
 
+PuntoEnfermedadFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoEnfermedad, form=PuntoEnfermedadForm,
+    extra=4, min_num=1, max_num=8, can_delete=True, can_delete_extra=True
+)
+
 class PuntoImagenesForm(forms.ModelForm):
     class Meta:
         model = PuntoImagenes
-        fields = ('ligaimagen', )
+        fields = ('ligaimagen',)
+
+
+PuntoImagenesFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoImagenes, form=PuntoImagenesForm,
+    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+)
 
 class PuntoImagenLocalizacionForm(forms.ModelForm):
     class Meta:
         model = PuntoImagenLocalizacion
         fields = ('ligaimagen', )
 
+PuntoImagenLocalizacionFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoImagenLocalizacion, form=PuntoImagenLocalizacionForm,
+    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+)
+
 class PuntoLocalizacionForm(forms.ModelForm):
     class Meta:
         model = PuntoLocalizacion
         fields = ('desclocalizacion', )
+
+PuntoLocalizacionFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoLocalizacion, form=PuntoLocalizacionForm,
+    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+)
 
 class PuntoSignificadoForm(forms.ModelForm):
     class Meta:
         model = PuntoSignificado
         fields = ('descsignificado', )
 
+PuntoSignificadoFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoSignificado, form=PuntoSignificadoForm,
+    extra=1, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
+)
+
+class PuntoVideoForm(forms.ModelForm):
+    class Meta:
+        model = PuntoVideos
+        fields = ('ligavideo', )
+
+PuntoVideoFormSet = inlineformset_factory(
+    PuntoAcupuntura, PuntoVideos, form=PuntoVideoForm,
+    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+)
 
 
 class PuntoMultiForm(MultiModelForm):
