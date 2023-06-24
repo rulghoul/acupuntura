@@ -14,7 +14,7 @@
     }
 </script>
 <div class="card shadow-lg">
-    <h3 class="card-title">{{ titulo }}</h3>
+    <h3 class="card-title">Actualizar Punto</h3>
     <div class="card-body">
         <form enctype="multipart/form-data" class="container" method="post">
             {% csrf_token %} {{ form|crispy }}
