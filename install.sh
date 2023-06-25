@@ -1,15 +1,11 @@
 #!/bin/bash
-#Crear entorno virtual y descargar las librerias
-python3 -m venv virtual
-source virtual/bin/activate
-pip3 install -r requirements.txt
-cd acupuntura
-python3 manage.py migrate
-python3 manage.py collectstatic
-python3 mage.py loaddata puntos.json
-python3 manage.py createsuperuser
-cd ..
-deactivate
+# Variables Acupuntura
+export ACUPUNTURA_SQL_ENGINE="django.db.backends.mysql"
+export ACUPUNTURA_SQL_DATABASE="salud"
+export ACUPUNTURA_SQL_USER="acupuntura"
+export ACUPUNTURA_SQL_PASSWORD="acupunturadjango"
+export ACUPUNTURA_SQL_HOST="127.0.0.1"
+export ACUPUNTURA_SQL_PORT="3306"
 
 #Crear Usuario y asignar permisos
 groupadd --system webapps
@@ -29,10 +25,6 @@ DB_USER="root"
 DB_PASSWORD=""
 echo "Ingrese la contraseña para la conexión a la base de datos:"
 
-#Acupuntura
-ACUPUNTURA_SQL_DATABASE="salud"
-ACUPUNTURA_SQL_USER="acupuntura"
-ACUPUNTURA_SQL_PASSWORD="acupunturadjango"
 
 read -s DB_PASSWORD
 
@@ -42,6 +34,22 @@ SQL2+="GRANT ALL PRIVILEGES ON $ACUPUNTURA_SQL_DATABASE.* TO '$ACUPUNTURA_SQL_US
 echo "Bases de datos y usuarios creados correctamente."
 
 mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD -e "$SQL2" || exit 1
+
+
+#Crear entorno virtual y descargar las librerias
+python3 -m venv virtual
+source virtual/bin/activate
+pip3 install -r requirements.txt
+cd acupuntura
+python3 manage.py migrate
+python3 manage.py collectstatic
+python3 mage.py loaddata puntos.json
+python3 manage.py createsuperuser
+cd ..
+deactivate
+mkdir logs
+mkdir run
+
 
 #Instalar supervisor
 
