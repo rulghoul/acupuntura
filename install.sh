@@ -7,15 +7,14 @@ export ACUPUNTURA_SQL_PASSWORD="acupunturadjango"
 export ACUPUNTURA_SQL_HOST="127.0.0.1"
 export ACUPUNTURA_SQL_PORT="3306"
 
-#Crear Usuario y asignar permisos
-groupadd --system webapps
-useradd --system --gid webapps --home /var/www/python/acupuntura acupuntura
-#useradd --system --gid webapps --home /var/www/python/Fiesta eventos
+# Variables Acupuntura
+export ACUPUNTURA_SQL_ENGINE
+export ACUPUNTURA_SQL_DATABASE
+export ACUPUNTURA_SQL_USER
+export ACUPUNTURA_SQL_PASSWORD
+export ACUPUNTURA_SQL_HOST
+export ACUPUNTURA_SQL_PORT
 
-chown -R acupuntura:webapps /var/www/python/acupuntura
-
-chmod +x gunicorn_acupuntura.bash
-#usermod -m -d /var/www/python/acupuntura/ acupuntura
 
 #Crear Base de datos
 
@@ -39,6 +38,7 @@ mysql -h $DB_HOST -u $DB_USER -p$DB_PASSWORD -e "$SQL2" || exit 1
 #Crear entorno virtual y descargar las librerias
 python3 -m venv virtual
 source virtual/bin/activate
+
 pip3 install -r requirements.txt
 cd acupuntura
 python3 manage.py migrate
@@ -49,6 +49,16 @@ cd ..
 deactivate
 mkdir logs
 mkdir run
+
+#Crear Usuario y asignar permisos
+groupadd --system webapps
+useradd --system --gid webapps --home /var/www/python/acupuntura acupuntura
+#useradd --system --gid webapps --home /var/www/python/Fiesta eventos
+
+chown -R acupuntura:webapps /var/www/python/acupuntura
+
+chmod +x gunicorn_acupuntura.bash
+#usermod -m -d /var/www/python/acupuntura/ acupuntura
 
 
 #Instalar supervisor

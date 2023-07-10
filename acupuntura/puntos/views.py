@@ -317,3 +317,77 @@ class PuntoUpdate(PuntoInline, UpdateView):
             'localizaciones': PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='localizaciones'),
             'videos': PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='videos'),
         }
+    
+############ ENFERMEDADES ##############
+
+
+class lista_enfermedades(ListView):
+    model = PuntoEnfermedad
+    template_name  = 'catalogos/listenfermedad.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Enfermedades",
+            'add':"add_enfermedad",
+            'add_label':'Nueva Enfermedad',
+            'update':'update_enfermedad',  
+            'detalle':'detalle_enfermedad',
+            'borra':'borra_enfermedad',
+            'encabezados': {"clave":"CLAVE","nombre":"NOMBRE", "activo":"ACTIVO"},
+        }
+        context.update(datos)
+        return context    
+    
+
+class add_enfermedad(CreateView):
+    model = PuntoEnfermedad
+    success_url = reverse_lazy('lista_enfermedades')
+    fields = ['cveenfermedad', 'bandactivo']
+    template_name = 'catalogos/add.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nueva Enfermedad"
+        context['regresa'] = 'lista_enfermedades'
+        return context
+
+class update_enfermedad(UpdateView):
+    model = PuntoEnfermedad
+    fields = ['cveenfermedad', 'bandactivo']
+    success_url = reverse_lazy('lista_enfermedades')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Enfermedad"
+        context['regresa'] = 'lista_enfermedades'
+        return context
+    
+class detalle_canal(DetailView):
+    model = PuntoEnfermedad
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_enfermedades')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Enfermedad"
+        context['regresa'] = 'lista_enfermedades'
+        return context   
+
+
+class borra_enfermedad(DeleteView):
+    model = PuntoEnfermedad
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_enfermedades')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borra Enfermedad"
+        context['regresa'] = 'lista_enfermedades'
+        return context   

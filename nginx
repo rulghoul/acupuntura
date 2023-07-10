@@ -3,8 +3,12 @@ upstream acupuntura_server {
 }
 
 server {
-    listen   80;
-    server_name acupuntura.ghoulrul.online;
+    listen 80;
+    server_name equilibrioenmisalud.ghoulrul.online;
+
+    #SSL/TLS
+    ssl_certificate /etc/letsencrypt/live/organiza-me.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/organiza-me.com/privkey.pem; # managed by Certbot
 
     client_max_body_size 4G;
 

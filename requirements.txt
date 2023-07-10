@@ -1,3 +1,4 @@
+pydantic==1.10.10
 asgiref==3.5.2
 beautifulsoup4==4.11.1
 Django==4.1.3
