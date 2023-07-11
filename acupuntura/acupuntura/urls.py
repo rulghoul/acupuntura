@@ -42,7 +42,6 @@ path_enfermedades = [
     path(f'{inicio}detalle_enfermedad/<int:pk>/', detalle_enfermedad.as_view(), name='detalle_enfermedad'),
 ]
 
-
 path_puntos = [
     path(f'{inicio}lista_puntos', lista_puntos.as_view(), name='lista_puntos'),
     path(f'{inicio}add_punto', add_punto.as_view(), name='add_punto'),
