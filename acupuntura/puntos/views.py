@@ -367,7 +367,7 @@ class update_enfermedad(UpdateView):
         context['regresa'] = 'lista_enfermedades'
         return context
     
-class detalle_canal(DetailView):
+class detalle_enfermedad(DetailView):
     model = PuntoEnfermedad
     template_name = 'catalogos/detalle.html'
     success_url = reverse_lazy('lista_enfermedades')

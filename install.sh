@@ -47,6 +47,8 @@ python3 mage.py loaddata puntos.json
 python3 manage.py createsuperuser
 cd ..
 deactivate
+
+#Creacion de carpetas
 mkdir logs
 mkdir run
 
@@ -74,6 +76,6 @@ supervisorctl status
 cp nginx /etc/nginx/sites-available/acupuntura
 #Activar sitio Nginx
 ln -s /etc/nginx/sites-available/acupuntura /etc/nginx/sites-enabled/acupuntura
-service nginx restart
+#service nginx restart
 
 

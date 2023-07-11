@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 from tema.views import (user_login, home_view,add_color, update_color, list_color, add_imagen, update_imagen, list_imagen)
 
 from puntos.views import (lista_canales, update_canal, add_canal, borra_canal, detalle_canal,
+                          lista_enfermedades, update_enfermedad, add_enfermedad, borra_enfermedad, detalle_enfermedad,
                           lista_puntos, update_punto,  add_punto, 
                           borra_punto, detalle_punto, PuntoUpdate)
 
@@ -33,6 +34,14 @@ path_canales = [
     path(f'{inicio}detalle_canal/<int:pk>/', detalle_canal.as_view(), name='detalle_canal'),
 ]
 
+path_enfermedades = [
+    path(f'{inicio}lista_enfermedades', lista_enfermedades.as_view(), name='lista_enfermedad'),
+    path(f'{inicio}add_enfermedad', add_enfermedad.as_view(), name='add_enfermedad'),
+    path(f'{inicio}borra_enfermedad/<int:pk>/', borra_enfermedad.as_view(), name='borra_enfermedad'),
+    path(f'{inicio}update_enfermedad/<int:pk>/', update_enfermedad.as_view(), name='update_enfermedad'),
+    path(f'{inicio}detalle_enfermedad/<int:pk>/', detalle_enfermedad.as_view(), name='detalle_enfermedad'),
+]
+
 
 path_puntos = [
     path(f'{inicio}lista_puntos', lista_puntos.as_view(), name='lista_puntos'),
@@ -51,7 +60,8 @@ urlpatterns = [
     path(f'{inicio}accounts/', include("django.contrib.auth.urls")), 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-+ path_imagen \
-+ path_colores \
-+ path_canales \
-+ path_puntos
++ path_imagen   \
++ path_colores  \
++ path_canales  \
++ path_puntos   \
++ path_enfermedades
