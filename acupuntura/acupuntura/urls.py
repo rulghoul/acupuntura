@@ -35,7 +35,7 @@ path_canales = [
 ]
 
 path_enfermedades = [
-    path(f'{inicio}lista_enfermedades', lista_enfermedades.as_view(), name='lista_enfermedad'),
+    path(f'{inicio}lista_enfermedades', lista_enfermedades.as_view(), name='lista_enfermedades'),
     path(f'{inicio}add_enfermedad', add_enfermedad.as_view(), name='add_enfermedad'),
     path(f'{inicio}borra_enfermedad/<int:pk>/', borra_enfermedad.as_view(), name='borra_enfermedad'),
     path(f'{inicio}update_enfermedad/<int:pk>/', update_enfermedad.as_view(), name='update_enfermedad'),

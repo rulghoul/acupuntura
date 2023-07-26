@@ -322,7 +322,7 @@ class PuntoUpdate(PuntoInline, UpdateView):
 
 
 class lista_enfermedades(ListView):
-    model = PuntoEnfermedad
+    model = Enfermedad
     template_name  = 'catalogos/listenfermedad.html'
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -342,9 +342,9 @@ class lista_enfermedades(ListView):
     
 
 class add_enfermedad(CreateView):
-    model = PuntoEnfermedad
+    model = Enfermedad
     success_url = reverse_lazy('lista_enfermedades')
-    fields = ['cveenfermedad', 'bandactivo']
+    fields = ['cveenfermedad', 'nomenfermedad','bandactivo']
     template_name = 'catalogos/add.html'
     
     def get_context_data(self, **kwargs):
@@ -355,8 +355,8 @@ class add_enfermedad(CreateView):
         return context
 
 class update_enfermedad(UpdateView):
-    model = PuntoEnfermedad
-    fields = ['cveenfermedad', 'bandactivo']
+    model = Enfermedad
+    fields = ['cveenfermedad', 'nomenfermedad','bandactivo']
     success_url = reverse_lazy('lista_enfermedades')
     template_name = 'catalogos/update.html'
     
@@ -368,7 +368,7 @@ class update_enfermedad(UpdateView):
         return context
     
 class detalle_enfermedad(DetailView):
-    model = PuntoEnfermedad
+    model = Enfermedad
     template_name = 'catalogos/detalle.html'
     success_url = reverse_lazy('lista_enfermedades')
 
@@ -381,7 +381,7 @@ class detalle_enfermedad(DetailView):
 
 
 class borra_enfermedad(DeleteView):
-    model = PuntoEnfermedad
+    model = Enfermedad
     template_name = 'catalogos/borrar.html'
     success_url = reverse_lazy('lista_enfermedades')
 
