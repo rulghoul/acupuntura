@@ -6,7 +6,7 @@ server {
     listen 80;
     listen [::]:80;
     listen 443 ssl;
-    server_name medicinaalternativa.ghoulrul.online;
+    server_name medicinaalternativa.organiza-me.com;
 
     #SSL/TLS
     ssl_certificate /etc/letsencrypt/live/organiza-me.com/fullchain.pem; # managed by Certbot
