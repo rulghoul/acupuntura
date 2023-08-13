@@ -203,69 +203,75 @@ class PuntoInline():
         return redirect('lista_puntos')
 
     def formset_imagenes_valid(self, formset):
-        imagenes = formset.save(commit=False) 
         for obj in formset.deleted_objects:
             obj.delete()
-        for imagen in imagenes:
-            imagen.cvepunto = self.object
-            imagen.save()
+        for imagen in formset:
+            if imagen.is_valid():
+                imagen.cvepunto = self.object
+                imagen.save()
 
     def formset_documentos_valid(self, formset):
         documentos = formset.save(commit=False)  
         for obj in formset.deleted_objects:
             obj.delete()
-        for documento in documentos:
-            documento.cvepunto = self.object
-            documento.save()
+        for documento in formset:
+            if documento.is_valid():
+                documento.cvepunto = self.object
+                documento.save()
 
     def formset_caracteristicas_valid(self, formset):
-        caracteristicas = formset.save(commit=False)  
         for obj in formset.deleted_objects:
             obj.delete()
-        for caracteristica in caracteristicas:
-            caracteristica.cvepunto = self.object
-            caracteristica.save()    
+        for caracteristica in formset:
+            if caracteristica.is_valid():
+                caracteristica.cvepunto = self.object
+                caracteristica.save()    
                         
     def formset_significados_valid(self, formset):
-        significados = formset.save(commit=False)  
         for obj in formset.deleted_objects:
             obj.delete()
-        for significado in significados:
-            significado.cvepunto = self.object
-            significado.save()
+        for significado  in formset:
+            if significado.is_valid():
+                significado = significado.save(commit=False)
+                significado.cvepunto = self.object
+                significado.save()
                                 
     def formset_enfermedades_valid(self, formset):
-        enfermedades = formset.save(commit=False)  
         for obj in formset.deleted_objects:
             obj.delete()
-        for enfermedad in enfermedades:
-            enfermedad.cvepunto = self.object
-            enfermedad.save()
+        for enfermedad in formset:
+            if enfermedad.is_valid():
+                enfermedad = enfermedad.save(commit=False)
+                enfermedad.cvepunto = self.object
+                enfermedad.save()
 
     def formset_imagen_localizaciones_valid(self, formset):
-        imagen_localizaciones = formset.save(commit=False)  
         for obj in formset.deleted_objects:
             obj.delete()
-        for imagen_localizacion in imagen_localizaciones:
-            imagen_localizacion.cvepunto = self.object
-            imagen_localizacion.save()
+        for imagen_localizacion in formset:
+            if imagen_localizacion.is_valid():
+                imagen_localizacion = imagen_localizacion.save(commit=False)
+                imagen_localizacion.cvepunto = self.object
+                imagen_localizacion.save()
                     
                     
     def formset_localizaciones_valid(self, formset):
-        localizaciones = formset.save(commit=False)  
         for obj in formset.deleted_objects:
             obj.delete()
-        for localizacion in localizaciones:
-            localizacion.cvepunto = self.object
-            localizacion.save()
+        for localizacion in formset:
+            if localizacion.is_valid():
+                localizacion = localizacion.save(commit=False)
+                localizacion.cvepunto = self.object
+                localizacion.save()
 
-    def formset_videos_valid(self, formset):
-        videos = formset.save(commit=False)  
+    def formset_videos_valid(self, formset):   
         for obj in formset.deleted_objects:
             obj.delete()
-        for video in videos:
-            video.cvepunto = self.object
-            video.save()
+        for video in formset:
+            if video.is_valid():
+                video = video.save(commit=False)  
+                video.cvepunto = self.object
+                video.save()
 
 class PuntoCreate(PuntoInline, CreateView):
 
