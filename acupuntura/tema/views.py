@@ -67,7 +67,7 @@ class list_color(ListView):
 
 class add_imagen(CreateView):
     model = parametros_imagenes
-    success_url = reverse_lazy('list_imagenes')
+    success_url = reverse_lazy('list_imagen')
     fields = ['title', 'image',]
     template_name = 'parametros/add.html'
     
@@ -75,13 +75,13 @@ class add_imagen(CreateView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         context['titulo'] = "Nueva Imagen"
-        context['regresa'] = 'list_imagenes'
+        context['regresa'] = 'list_imagen'
         return context
 
 class update_imagen(UpdateView):
     model = parametros_imagenes
     fields = ['title', 'image',]
-    success_url = reverse_lazy('list_imagenes')
+    success_url = reverse_lazy('list_imagen')
     template_name = 'parametros/update.html'
     
     def get_context_data(self, **kwargs):
@@ -124,7 +124,7 @@ def user_login(request):
             # Save session as cookie to login the user
             login(request, user)
             # Success, now let's login the user.
-            return render(request, 'account.html')
+            return render(request, 'home.html')
         else:
             # Incorrect credentials, let's throw an error to the screen.
             return render(request, 'registration/login.html', {'error_message': 'Nombre o contraseña incorrecta.'})

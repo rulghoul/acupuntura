@@ -20,7 +20,7 @@
 <tbody id="CuerpoCatalogo">
 {% for elemento in object_list  %}
 <tr>
-    <td>{{ elemento.title }}</td>
+    <td>{{ elemento.get_title_display }}</td>
     <td>{{ elemento.image }}</td>
     <td class="text-center">
       <!-- Update book buttons -->

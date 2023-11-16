@@ -3,18 +3,32 @@ from ckeditor.fields import RichTextField
 from ckeditor.widgets import CKEditorWidget
 from django.utils import timezone
 
+class TipoPunto(models.Model):
+    tipopunto = models.CharField(db_column='clave', max_length=20)
+    descripciontipopunto = models.CharField(db_column='nombre', max_length=80)
+
+class ParteCuerpo(models.Model):
+    nombre = models.CharField( max_length=20 )
+
+    class Meta:        
+        db_table = 'PARTE_CUERPO'
 
 class CanalAcupuntura(models.Model):
     cvecanal = models.CharField(db_column='CveCanal', max_length=20)
     nomcanal = models.CharField(db_column='NomCanal', max_length=80)
+    trayecto = models.CharField(max_length=20, default=None)
+    nomchino = models.CharField( max_length=20, default=None)
+    traduccion = models.CharField( max_length=80, default=None)
+    numtotalpuntos = models.CharField( max_length=20, default=None)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
-    datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
+    datelastupdate = models.DateTimeField(db_column='DateLastUpdate', default=timezone.now)
 
     def __str__(self) -> str:
         return self.nomcanal
 
     class Meta:        
         db_table = 'CANAL_ACUPUNTURA'
+
 
 
 class Enfermedad(models.Model):
@@ -41,24 +55,13 @@ class Sintoma(models.Model):
         db_table = 'SINTOMA'
 
 
-class OrganoParteCuerpo(models.Model):
-    nomorgpartecuerpo = models.CharField(db_column='NomOrgparteCuerpo', max_length=255)
-    sintoma = models.ForeignKey(Sintoma, models.DO_NOTHING)
-    bandactivo = models.BooleanField(db_column='BandActivo', default=True)
-    datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
-
-    def __str__(self) -> str:
-        return self.nomorgpartecuerpo
-    
-    class Meta:        
-        db_table = 'ORGANO_PARTE_CUERPO'
-
 
 class PuntoAcupuntura(models.Model):
     cvepunto =  models.CharField(db_column='CvePunto', max_length=20)  
     nompunto = models.CharField(db_column='NomPunto', max_length=80)
     nomlargopunto = models.CharField(db_column='NomLargoPunto', max_length=300)
     cvecanal = models.ForeignKey(CanalAcupuntura, models.DO_NOTHING)
+    #partecuerpo = models.ForeignKey(ParteCuerpo, models.DO_NOTHING,  default=1)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -162,7 +165,7 @@ class PuntoSignificado(models.Model):
 
 class PuntoSintomatologia(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    nomorgpartecuerpo = models.ForeignKey(OrganoParteCuerpo, models.DO_NOTHING)
+    nomorgpartecuerpo = models.ForeignKey(ParteCuerpo, models.DO_NOTHING)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -190,7 +193,7 @@ class PuntoVideos(models.Model):
 
 class Sintomatologia(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.DO_NOTHING)
-    nomorgpartecuerpo = models.ForeignKey(OrganoParteCuerpo, models.DO_NOTHING)
+    nomorgpartecuerpo = models.ForeignKey(ParteCuerpo, models.DO_NOTHING)
     sintoma = models.ForeignKey(Sintoma, models.DO_NOTHING)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
@@ -201,3 +204,16 @@ class Sintomatologia(models.Model):
     class Meta:        
         db_table = 'SINTOMATOLOGIA'
 
+
+class Emociones(models.Model):
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+    emocion = models.CharField( max_length=80)
+
+class TablaElementos(models.Model):
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+    categoria = models.CharField( max_length=80)
+    valores = models.CharField( max_length=80)
+
+class TipoPuntoValores(models.Model):
+    tipopunto = models.ForeignKey(TipoPunto, models.CASCADE)
+    valores = models.CharField(max_length=80)

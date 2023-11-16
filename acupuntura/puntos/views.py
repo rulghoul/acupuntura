@@ -14,7 +14,7 @@ from .models import (CanalAcupuntura, PuntoAcupuntura, \
                      PuntoImagenLocalizacion, PuntoLocalizacion, \
                      PuntoSignificado, PuntoSintomatologia, \
                      PuntoVideos, Enfermedad, Sintoma, Sintomatologia, \
-                     OrganoParteCuerpo, 
+                     ParteCuerpo, 
                      )
 from .forms import (PuntoImagenesForm, PuntoCaracteristicasForm, \
                     PuntoAcupunturaForm, PuntoDocumentosForm, \
@@ -51,7 +51,7 @@ class lista_canales(ListView):
 class add_canal(CreateView):
     model = CanalAcupuntura
     success_url = reverse_lazy('lista_canales')
-    fields = ['cvecanal', 'nomcanal', 'bandactivo']
+    fields = ['cvecanal', 'nomcanal', 'trayecto','nomchino', 'traduccion', 'numtotalpuntos', 'bandactivo']
     template_name = 'catalogos/add.html'
     
     def get_context_data(self, **kwargs):
@@ -63,7 +63,7 @@ class add_canal(CreateView):
 
 class update_canal(UpdateView):
     model = CanalAcupuntura
-    fields = ['cvecanal', 'nomcanal', 'bandactivo']
+    fields = ['cvecanal', 'nomcanal', 'trayecto','nomchino', 'traduccion', 'numtotalpuntos', 'bandactivo']
     success_url = reverse_lazy('lista_canales')
     template_name = 'catalogos/update.html'
     
