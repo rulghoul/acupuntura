@@ -16,7 +16,7 @@
     <h3 class="card-title">{{ titulo }}</h3>
     <div class="card-body">
         <form action="" method="POST">
-            {% csrf_token %} {{ form1|crispy }}
+            {% csrf_token %} {% crispy form1 %}
 
             <div class="col text-center">
                 <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" id="submit-save">

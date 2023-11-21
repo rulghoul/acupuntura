@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory, BaseFormSet, formset_factory
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Div, HTML
+from crispy_forms.layout import Layout, Fieldset, Div, HTML, Submit
 from .models import (PuntoAcupuntura, PuntoCaracteristicas, PuntoDocumentos, 
                      PuntoEnfermedad, PuntoImagenes, PuntoImagenLocalizacion, 
                      PuntoLocalizacion, PuntoSignificado, PuntoVideos)
@@ -20,6 +20,25 @@ class PuntoAcupunturaForm(forms.ModelForm):
             'cvecanal': 'Canal de acupuntura',
             'bandactivo': 'Activo',
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+                Div('cvepunto',css_class='col-4'),
+                Div('nompunto', css_class='col-4'),
+                Div('cvecanal', css_class='col-4'),
+                css_class='row'
+            ),
+            Div(
+                Div('nomlargopunto',css_class='col-6'),
+                Div('bandactivo', css_class='col-2'),
+                Div(Submit('submit', 'Guardar', css_class='button white'), css_class='col-4'),
+                css_class='row'
+            ),
+        )
+        self.fields['bandactivo'].widget.attrs['class'] =  'form-check-input'
 
 class PuntoCaracteristicasForm(forms.ModelForm):
     class Meta:
