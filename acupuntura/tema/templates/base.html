@@ -4,54 +4,53 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %}Acupuntura{% endblock %}</title>
+    <title>
+      {% block title %}
+        Acupuntura
+      {% endblock %}
+    </title>
     {# Load the tag library #}
     {% load colores_del_sitio %}
     {% load bootstrap4 %}
-    
+
     {# Load CSS and JavaScript #}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
     {# Display django.contrib.messages as Bootstrap alerts #}
     {% bootstrap_messages %}
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>    
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <script type="text/javascript" src="{% static 'colorfield/colorfield.js' %}"></script>
+    {% include 'estilo.html' %}
   </head>
   <body>
-    <style>
-      .select{
-        border-radius: 3rem;
-        }
-      .textinput   {
-        border-radius: 3rem;
-        }
-      .input   {
-        border-radius: 3rem;
-        }
-      .pleca {
-       background-color: {% get_color 'pleca' %};
-      };      
-      .menupleca {
-        background-color: {% get_color 'menu' %};
-      };
-    </style>
-    <nav class="navbar navbar-expand-lg sticky-top pleca" >
-      {% if user.is_authenticated %}
-        {% include 'menu.html' %}
-      {% else %}      
-      <div class="form-inline navbar-nav ml-auto" action="/action_page.php">
-        <a class="btn btn-success" href="{% url 'login' %}">Ingresar</a>
-      </div>
-      {% endif %}
-    </nav>
+    <div class="fixed-top d-flex align-items-center" style="background-color: {% get_color 'pleca' %};">
+      <!-- Accionador del Slidebar -->
+      <a class="dropdown-item" href="#" onclick="toggleSlidebar()" 
+      style=" font-size: 32px; width: 2em; background-color: {% get_color 'pleca' %};">
+      <span class="fa-solid fa-bars" style="background-color: {% get_color 'pleca' %};"></span>
+    </a>
 
-    <div class="vh-100  container-fluid align-items-center"
-    style="background-color: {% get_color 'fondo' %}; max-width: 90%;">
-      {% block content %} {% endblock %}
+      <!-- Logo o Imagen -->
+      <a class="nav-brand" href="{% url 'home' %}"><img src="{% get_imagen 'logo' %}" height="80px" /></a>
     </div>
 
+    <div id="slidebar" class="slidebar" >
+      {% if user.is_authenticated %}
+        {% include 'menu.html' %}
+        <a class="btn btn-danger enlace-inferior " href="{% url 'logout' %}">Salir</a>
+      {% else %}
+        <a class="btn btn-success enlace-inferior " href="{% url 'login' %}">Ingresar</a>
+      {% endif %}
+    </div>
+
+    <div class="vh-100 container-fluid align-items-center" 
+    style="background-color: {% get_rgba 'fondo' 0.8 %}; max-width: 90%;margin-top: 90px;">
+      {% block content %}
+
+      {% endblock %}
+    </div>
   </body>
 </html>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView
@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 
 
@@ -112,25 +113,16 @@ class list_imagen(ListView):
     
 
 
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'
 
-def user_login(request):
-    if request.method == 'POST':
-        # Process the request if posted data are available
-        username = request.POST['username']
-        password = request.POST['password']
-        # Check username and password combination if correct
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            # Save session as cookie to login the user
-            login(request, user)
-            # Success, now let's login the user.
-            return render(request, 'home.html')
-        else:
-            # Incorrect credentials, let's throw an error to the screen.
-            return render(request, 'registration/login.html', {'error_message': 'Nombre o contraseña incorrecta.'})
-    else:
-        # No post data availabe, let's just show the page to the user.
-        return render(request, 'registration/login.html')
+    def form_valid(self, form):
+        super().form_valid(form)
+        return redirect('home')
+
+
+class CustomLogoutView(LogoutView):
+    next_page = 'home'
 
 def home_view(request):   
     template = loader.get_template('home.html')

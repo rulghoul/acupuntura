@@ -5,6 +5,7 @@ from colorfield.fields import ColorField
 COLOR_CHOICES = [
     ('pleca', 'Color de pleca'),
     ('menu', 'Color de menu'),
+    ('fondo', 'Color de fondo'),
 ]
 
 class parametros_colores(models.Model):
