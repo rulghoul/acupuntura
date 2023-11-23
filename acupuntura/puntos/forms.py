@@ -67,7 +67,7 @@ class PuntoEnfermedadForm(forms.ModelForm):
 
 PuntoEnfermedadFormSet = inlineformset_factory(
     PuntoAcupuntura, PuntoEnfermedad, form=PuntoEnfermedadForm,
-    extra=4, min_num=1, max_num=8, can_delete=True, can_delete_extra=True
+    extra=4, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
 )
 
 class PuntoImagenesForm(forms.ModelForm):

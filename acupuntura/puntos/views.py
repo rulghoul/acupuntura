@@ -5,22 +5,16 @@ from django.views.generic import ListView, DetailView
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.template import loader
+from django.contrib import messages
+
+import logging
 
 # Create your views here.
 
-from .models import (CanalAcupuntura, PuntoAcupuntura, \
-                     PuntoCaracteristicas, PuntoDocumentos, \
-                     PuntoEnfermedad, PuntoImagenes, \
-                     PuntoImagenLocalizacion, PuntoLocalizacion, \
-                     PuntoSignificado, PuntoSintomatologia, \
-                     PuntoVideos, Enfermedad, Sintoma, Sintomatologia, \
-                     ParteCuerpo, 
-                     )
-from .forms import (PuntoImagenesForm, PuntoCaracteristicasForm, \
-                    PuntoAcupunturaForm, PuntoDocumentosForm, \
-                    PuntoEnfermedadForm, PuntoImagenLocalizacionForm, \
-                    PuntoLocalizacionForm, PuntoSignificadoForm, \
-                    PuntoMultiForm)
+from . import models as modelos
+
+from . import forms as formularios
+
 
 from .forms import (PuntoImagenesFormSet, PuntoCaracteristicasFormSet, \
                     PuntoDocumentosFormSet,  PuntoSignificadoFormSet, \
@@ -29,7 +23,7 @@ from .forms import (PuntoImagenesFormSet, PuntoCaracteristicasFormSet, \
                     )
 
 class lista_canales(ListView):
-    model = CanalAcupuntura
+    model = modelos.CanalAcupuntura
     template_name  = 'catalogos/listcanal.html'
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -49,7 +43,7 @@ class lista_canales(ListView):
     
 
 class add_canal(CreateView):
-    model = CanalAcupuntura
+    model = modelos.CanalAcupuntura
     success_url = reverse_lazy('lista_canales')
     fields = ['cvecanal', 'nomcanal', 'trayecto','nomchino', 'traduccion', 'numtotalpuntos', 'bandactivo']
     template_name = 'catalogos/add.html'
@@ -62,7 +56,7 @@ class add_canal(CreateView):
         return context
 
 class update_canal(UpdateView):
-    model = CanalAcupuntura
+    model = modelos.CanalAcupuntura
     fields = ['cvecanal', 'nomcanal', 'trayecto','nomchino', 'traduccion', 'numtotalpuntos', 'bandactivo']
     success_url = reverse_lazy('lista_canales')
     template_name = 'catalogos/update.html'
@@ -75,7 +69,7 @@ class update_canal(UpdateView):
         return context
     
 class detalle_canal(DetailView):
-    model = CanalAcupuntura
+    model = modelos.CanalAcupuntura
     template_name = 'catalogos/detalle.html'
     success_url = reverse_lazy('lista_canales')
 
@@ -88,7 +82,7 @@ class detalle_canal(DetailView):
 
 
 class borra_canal(DeleteView):
-    model = CanalAcupuntura
+    model = modelos.CanalAcupuntura
     template_name = 'catalogos/borrar.html'
     success_url = reverse_lazy('lista_canales')
 
@@ -102,7 +96,7 @@ class borra_canal(DeleteView):
 ########### Puntos #############
 
 class lista_puntos(ListView):
-    model = PuntoAcupuntura
+    model = modelos.PuntoAcupuntura
     template_name  = 'catalogos/listpuntos.html'
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -126,7 +120,7 @@ class lista_puntos(ListView):
         return context    
     
 class add_punto(CreateView):
-    model = PuntoAcupuntura
+    model = modelos.PuntoAcupuntura
     success_url = reverse_lazy('update_punto')
     fields = ['cvepunto', 'nompunto', 'nomlargopunto', 'cvecanal', 'bandactivo']
     template_name = 'catalogos/add.html'
@@ -142,8 +136,8 @@ class add_punto(CreateView):
         return context
 
 class update_punto(UpdateView):
-    model = PuntoAcupuntura
-    form_class = PuntoAcupunturaForm
+    model = modelos.PuntoAcupuntura
+    form_class = formularios.PuntoAcupunturaForm
     success_url = reverse_lazy('lista_puntos')
     template_name = 'catalogos/update.html'
     
@@ -155,7 +149,7 @@ class update_punto(UpdateView):
         return context
     
 class detalle_punto(DetailView):
-    model = PuntoAcupuntura
+    model = modelos.PuntoAcupuntura
     template_name = 'catalogos/detalle.html'
     success_url = reverse_lazy('lista_puntos')
 
@@ -168,7 +162,7 @@ class detalle_punto(DetailView):
 
 
 class borra_punto(DeleteView):
-    model = PuntoAcupuntura
+    model = modelos.PuntoAcupuntura
     template_name = 'catalogos/borrar.html'
     success_url = reverse_lazy('lista_puntos')
 
@@ -183,8 +177,8 @@ class borra_punto(DeleteView):
 
 
 class PuntoInline():
-    form_class = PuntoAcupunturaForm
-    model = PuntoAcupuntura
+    form_class = formularios.PuntoAcupunturaForm
+    model = modelos.PuntoAcupuntura
     template_name = "punto/punto.html"
 
     def form_valid(self, form):
@@ -305,6 +299,60 @@ class PuntoCreate(PuntoInline, CreateView):
             }
 
 
+def PuntoUpdate2(request, pk):
+    punto = get_object_or_404(modelos.PuntoAcupuntura, pk=pk)    
+    form = formularios.PuntoAcupunturaForm(request.POST or None, request.FILES or None,  instance=punto)
+    # Initialize the formset    
+    imagenes =  formularios.PuntoImagenesFormSet(prefix='imagenes', instance=punto, data=request.POST or None, files=request.FILES or None),
+    documentos =  formularios.PuntoDocumentosFormSet(prefix='documentos', instance=punto, data=request.POST or None, files=request.FILES or None),
+    caracteristicas =  formularios.PuntoCaracteristicasFormSet(prefix='caracteristicas', instance=punto, data=request.POST or None, files=request.FILES or None),
+    significados =  formularios.PuntoSignificadoFormSet(prefix='significados', instance=punto, data=request.POST or None, files=request.FILES or None),
+    enfermedades =  formularios.PuntoEnfermedadFormSet(prefix='enfermedades', instance=punto, data=request.POST or None, files=request.FILES or None),
+    imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None),
+    localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None),
+    videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None),
+    nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos') 
+    if request.method == 'POST':
+        print("Se empieza a procesar los formularios")
+        if form.has_changed():
+            print(f"El punto cambio: {punto}")
+            if form.is_valid():
+                print("El punto guardara")
+                form.save()
+
+        for nombre in nombres:
+            try:
+                for formm in eval(nombre):
+                    if formm.is_valid():
+                        print(f"Se guardara un form de {nombre}")
+                        formm.cvepunto = punto
+                        formm.save()
+                        #messages.success(request, f"{nombre} -- se guardaron cambios.")
+                    else:
+                        print(request, f"{nombre} -- Please correct the errors below.")
+                
+            except Exception as e:
+                print(f"fallo por: {e}")
+
+        return redirect('update_punto2', pk=punto.pk)
+    
+    else:
+        logging.info("Se empieza a procesar los formularios")
+        # Render the template for GET and POST with errors
+        return render(request, 'punto/punto2.html', {
+            'imagenes':imagenes,
+            'documentos':documentos,
+            'caracteristicas':caracteristicas,
+            'significados':significados,
+            'enfermedades':enfermedades,
+            'imagen_localizaciones':imagen_localizaciones,
+            'localizaciones':localizaciones,
+            'videos':videos,
+            'punto': punto,
+            'form' : form
+        })
+
+
 class PuntoUpdate(PuntoInline, UpdateView):
 
     def get_context_data(self, **kwargs):
@@ -328,7 +376,7 @@ class PuntoUpdate(PuntoInline, UpdateView):
 
 
 class lista_enfermedades(ListView):
-    model = Enfermedad
+    model = modelos.Enfermedad
     template_name  = 'catalogos/listenfermedad.html'
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -348,7 +396,7 @@ class lista_enfermedades(ListView):
     
 
 class add_enfermedad(CreateView):
-    model = Enfermedad
+    model = modelos.Enfermedad
     success_url = reverse_lazy('lista_enfermedades')
     fields = ['cveenfermedad', 'nomenfermedad','bandactivo']
     template_name = 'catalogos/add.html'
@@ -361,7 +409,7 @@ class add_enfermedad(CreateView):
         return context
 
 class update_enfermedad(UpdateView):
-    model = Enfermedad
+    model = modelos.Enfermedad
     fields = ['cveenfermedad', 'nomenfermedad','bandactivo']
     success_url = reverse_lazy('lista_enfermedades')
     template_name = 'catalogos/update.html'
@@ -374,7 +422,7 @@ class update_enfermedad(UpdateView):
         return context
     
 class detalle_enfermedad(DetailView):
-    model = Enfermedad
+    model = modelos.Enfermedad
     template_name = 'catalogos/detalle.html'
     success_url = reverse_lazy('lista_enfermedades')
 
@@ -387,7 +435,7 @@ class detalle_enfermedad(DetailView):
 
 
 class borra_enfermedad(DeleteView):
-    model = Enfermedad
+    model = modelos.Enfermedad
     template_name = 'catalogos/borrar.html'
     success_url = reverse_lazy('lista_enfermedades')
 

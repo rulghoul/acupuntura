@@ -43,6 +43,7 @@ path_puntos = [
     path('add_punto', puntos_views.add_punto.as_view(), name='add_punto'),
     path('borra_punto/<int:pk>/', puntos_views.borra_punto.as_view(), name='borra_punto'),
     path('update_punto/<int:pk>/', puntos_views.PuntoUpdate.as_view(), name='update_punto'),
+    path('update_punto2/<int:pk>/', puntos_views.PuntoUpdate2, name='update_punto2'),
     path('detalle_punto/<int:pk>/', puntos_views.detalle_punto.as_view(), name='detalle_punto'),
 ]
 
@@ -61,3 +62,6 @@ urlpatterns = [
 + path_canales  \
 + path_puntos   \
 + path_enfermedades
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
