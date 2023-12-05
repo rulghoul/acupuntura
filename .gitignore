@@ -8,3 +8,8 @@ __pycache__/
 
 /acupuntura/acupuntura/static
 /acupuntura/acupuntura/media
+
+# archivos temporales de configuracion
+
+acupuntura.conf.tmp
+nginx.tmp

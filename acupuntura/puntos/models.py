@@ -211,6 +211,7 @@ class Sintomatologia(models.Model):
         db_table = 'SINTOMATOLOGIA'
 
 
+# Parte de cuerpo y emocion
 
 class Emocion(models.Model):
     nombre = models.CharField( max_length=80)
@@ -236,4 +237,3 @@ class PuntoElemento(models.Model):
     elemento = models.ForeignKey(Elementos, models.CASCADE)
 
 
-# Parte de cuerpo y emocion

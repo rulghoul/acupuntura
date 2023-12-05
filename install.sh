@@ -34,18 +34,18 @@ sed -i "s|{DIRECTORIO}|$CURRENT_DIR|g" acupuntura.conf.tmp
 sed -i "s|{DIRECTORIO}|$CURRENT_DIR|g" nginx.tmp
 
 # Instalar y configurar supervisor
-cp acupuntura.conf.tmp /etc/supervisor/conf.d/acupuntura.conf
+#cp acupuntura.conf.tmp /etc/supervisor/conf.d/acupuntura.conf
 supervisorctl reread
 supervisorctl update
 supervisorctl status
 
 # Configuracion de Nginx
-cp nginx.tmp /etc/nginx/sites-available/acupuntura
+#cp nginx.tmp /etc/nginx/sites-available/acupuntura
 
 # Activar sitio Nginx
-ln -sf /etc/nginx/sites-available/acupuntura /etc/nginx/sites-enabled/
+#ln -sf /etc/nginx/sites-available/acupuntura /etc/nginx/sites-enabled/
 
 # Eliminar archivos temporales
-rm acupuntura.conf.tmp nginx.tmp
+#rm acupuntura.conf.tmp nginx.tmp
 
 #service nginx restart
