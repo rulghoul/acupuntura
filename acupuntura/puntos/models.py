@@ -6,9 +6,15 @@ from django.utils import timezone
 class TipoPunto(models.Model):
     tipopunto = models.CharField(db_column='clave', max_length=20)
     descripciontipopunto = models.CharField(db_column='nombre', max_length=80)
+    
+    def __str__(self) -> str:
+        return self.tipopunto
 
 class ParteCuerpo(models.Model):
     nombre = models.CharField( max_length=20 )
+
+    def __str__(self) -> str:
+        return self.nombre
 
     class Meta:        
         db_table = 'PARTE_CUERPO'
@@ -205,15 +211,29 @@ class Sintomatologia(models.Model):
         db_table = 'SINTOMATOLOGIA'
 
 
-class Emociones(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    emocion = models.CharField( max_length=80)
 
-class TablaElementos(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    categoria = models.CharField( max_length=80)
-    valores = models.CharField( max_length=80)
+class Emocion(models.Model):
+    nombre = models.CharField( max_length=80)
+    parte = models.ForeignKey(ParteCuerpo, models.CASCADE)
+    tipo_punto = models.ForeignKey(TipoPunto, models.CASCADE)
 
-class TipoPuntoValores(models.Model):
-    tipopunto = models.ForeignKey(TipoPunto, models.CASCADE)
-    valores = models.CharField(max_length=80)
+    def __str__(self) -> str:
+        return self.nombre
+
+class PuntoEmocion(models.Model):
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+    emocion = models.ForeignKey(Emocion, models.CASCADE)
+
+class Elementos(models.Model):
+    nombre = models.CharField( max_length=30, default='')
+    descripcion = models.CharField( max_length=240, default='')
+    
+    def __str__(self) -> str:
+        return self.nombre
+
+class PuntoElemento(models.Model):
+    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+    elemento = models.ForeignKey(Elementos, models.CASCADE)
+
+
+# Parte de cuerpo y emocion

@@ -1,5 +1,5 @@
 upstream acupuntura_server {
-  server unix:/var/www/python/medicina/acupuntura/run/gunicorn.sock fail_timeout=0;
+  server unix:{DIRECTORIO}/run/gunicorn.sock fail_timeout=0;
 }
 
 server {
@@ -14,15 +14,15 @@ server {
 
     client_max_body_size 4G;
 
-    access_log /var/www/python/medicina/acupuntura/logs/nginx-access.log;
-    error_log /var/www/python/medicina/acupuntura/logs/nginx-error.log;
+    access_log {DIRECTORIO}/logs/nginx-access.log;
+    error_log {DIRECTORIO}/logs/nginx-error.log;
 
     location /static {
-        alias   /var/www/python/medicina/acupuntura/acupuntura/acupuntura/static/;
+        alias   {DIRECTORIO}/acupuntura/acupuntura/static/;
     }
 
     location /media {
-        alias   /var/www/python/medicina/acupuntura/acupuntura/acupuntura/media/;
+        alias   /{DIRECTORIO}/acupuntura/acupuntura/media/;
     }
 
     location / {

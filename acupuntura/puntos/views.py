@@ -16,12 +16,6 @@ from . import models as modelos
 from . import forms as formularios
 
 
-from .forms import (PuntoImagenesFormSet, PuntoCaracteristicasFormSet, \
-                    PuntoDocumentosFormSet,  PuntoSignificadoFormSet, \
-                    PuntoEnfermedadFormSet, PuntoImagenLocalizacionFormSet, \
-                    PuntoLocalizacionFormSet, PuntoVideoFormSet\
-                    )
-
 class lista_canales(ListView):
     model = modelos.CanalAcupuntura
     template_name  = 'catalogos/listcanal.html'
@@ -277,25 +271,25 @@ class PuntoCreate(PuntoInline, CreateView):
     def get_named_formsets(self):
         if self.request.method == "GET":
             return {
-                'imagenes': PuntoImagenesFormSet(prefix='imagenes'),
-                'documentos': PuntoDocumentosFormSet(prefix='documentos'),
-                'caracteristicas': PuntoCaracteristicasFormSet(prefix='caracteristicas'),
-                'significados': PuntoSignificadoFormSet(prefix='significados'),
-                'enfermedades': PuntoEnfermedadFormSet(prefix='enfermedades'),
-                'imagen_localizaciones': PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones'),
-                'localizaciones': PuntoLocalizacionFormSet(prefix='localizaciones'),
-                'videos': PuntoVideoFormSet(prefix='videos'),
+                'imagenes': formularios.PuntoImagenesFormSet(prefix='imagenes'),
+                'documentos': formularios.PuntoDocumentosFormSet(prefix='documentos'),
+                'caracteristicas': formularios.PuntoCaracteristicasFormSet(prefix='caracteristicas'),
+                'significados': formularios.PuntoSignificadoFormSet(prefix='significados'),
+                'enfermedades': formularios.PuntoEnfermedadFormSet(prefix='enfermedades'),
+                'imagen_localizaciones': formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones'),
+                'localizaciones': formularios.PuntoLocalizacionFormSet(prefix='localizaciones'),
+                'videos': formularios.PuntoVideoFormSet(prefix='videos'),
             }
         else:
             return {
-                'imagenes': PuntoImagenesFormSet(self.request.POST or None, self.request.FILES or None, prefix='imagenes'),
-                'documentos': PuntoDocumentosFormSet(self.request.POST or None, self.request.FILES or None, prefix='documentos'),
-                'caracteristicas': PuntoCaracteristicasFormSet(self.request.POST or None, self.request.FILES or None, prefix='caracteristicas'),
-                'significados': PuntoSignificadoFormSet(self.request.POST or None, self.request.FILES or None, prefix='significados'),
-                'enfermedades': PuntoEnfermedadFormSet(self.request.POST or None, self.request.FILES or None, prefix='enfermedades'),
-                'imagen_localizaciones': PuntoImagenLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, prefix='imagen_localizaciones'),
-                'localizaciones': PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, prefix='localizaciones'),
-                'videos': PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, prefix='videos'),
+                'imagenes': formularios.PuntoImagenesFormSet(self.request.POST or None, self.request.FILES or None, prefix='imagenes'),
+                'documentos': formularios.PuntoDocumentosFormSet(self.request.POST or None, self.request.FILES or None, prefix='documentos'),
+                'caracteristicas': formularios.PuntoCaracteristicasFormSet(self.request.POST or None, self.request.FILES or None, prefix='caracteristicas'),
+                'significados': formularios.PuntoSignificadoFormSet(self.request.POST or None, self.request.FILES or None, prefix='significados'),
+                'enfermedades': formularios.PuntoEnfermedadFormSet(self.request.POST or None, self.request.FILES or None, prefix='enfermedades'),
+                'imagen_localizaciones': formularios.PuntoImagenLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, prefix='imagen_localizaciones'),
+                'localizaciones': formularios.PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, prefix='localizaciones'),
+                'videos': formularios.PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, prefix='videos'),
             }
 
 
@@ -311,6 +305,8 @@ def PuntoUpdate2(request, pk):
     imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
+    emociones = formularios.EmocionesFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
+    elementos = formularios.ElementosFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
     nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos') 
     if request.method == 'POST':
         print("Se empieza a procesar los formularios")
@@ -350,6 +346,8 @@ def PuntoUpdate2(request, pk):
             'localizaciones':localizaciones,
             'videos':videos,
             'punto': punto,
+            'elementos' : elementos,
+            'emociones' : emociones,
             'form' : form
         })
 
@@ -363,14 +361,16 @@ class PuntoUpdate(PuntoInline, UpdateView):
 
     def get_named_formsets(self):
         return {
-            'imagenes': PuntoImagenesFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='imagenes'),
-            'documentos': PuntoDocumentosFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='documentos'),
-            'caracteristicas': PuntoCaracteristicasFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='caracteristicas'),
-            'significados': PuntoSignificadoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='significados'),
-            'enfermedades': PuntoEnfermedadFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='enfermedades'),
-            'imagen_localizaciones': PuntoImagenLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='imagen_localizaciones'),
-            'localizaciones': PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='localizaciones'),
-            'videos': PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='videos'),
+            'imagenes': formularios.PuntoImagenesFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='imagenes'),
+            'documentos': formularios.PuntoDocumentosFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='documentos'),
+            'caracteristicas': formularios.PuntoCaracteristicasFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='caracteristicas'),
+            'significados': formularios.PuntoSignificadoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='significados'),
+            'enfermedades': formularios.PuntoEnfermedadFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='enfermedades'),
+            'imagen_localizaciones': formularios.PuntoImagenLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='imagen_localizaciones'),
+            'localizaciones': formularios.PuntoLocalizacionFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='localizaciones'),
+            'videos': formularios.PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='videos'),
+            'emociones': formularios.EmocionesFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='emociones'),
+            'elementos': formularios.ElementosFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='elementos'),
         }
     
 ############ ENFERMEDADES ##############
@@ -445,4 +445,229 @@ class borra_enfermedad(DeleteView):
         context = super().get_context_data(**kwargs)
         context['titulo'] = "Borra Enfermedad"
         context['regresa'] = 'lista_enfermedades'
+        return context   
+    
+
+# Emociones y Elementos
+
+class lista_emociones(ListView):
+    model = modelos.Emocion
+    template_name  = 'catalogos/lista_emocion.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Emociones",
+            'add':"add_emocion",
+            'add_label':'Nueva Emocion',
+            'update':'update_emocion',  
+            'detalle':'detalle_emocion',
+            'borra':'borra_emocion',
+            'encabezados': {"nombre":"NOMBRE","parte":"PARTE DEL CUERPO", "tipo_punto":"TIPO DE PUNTO"},
+        }
+        context.update(datos)
+        return context    
+
+class add_emocion(CreateView):
+    model = modelos.Emocion
+    success_url = reverse_lazy('lista_emociones')
+    fields = ['nombre', 'parte', 'tipo_punto']
+    template_name = 'catalogos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nueva Emocion"
+        context['regresa'] = 'lista_emociones'
+        return context
+
+
+class update_emocion(UpdateView):
+    model = modelos.Emocion
+    fields = ['nombre', 'parte', 'tipo_punto']
+    success_url = reverse_lazy('lista_emociones')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Emocion"
+        context['regresa'] = 'lista_emociones'
+        return context
+    
+   
+class detalle_emocion(DetailView):
+    model = modelos.Emocion
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_emociones')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Emocion"
+        context['regresa'] = 'lista_emociones'
+        return context   
+
+
+class borra_emocion(DeleteView):
+    model = modelos.Emocion
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_emociones')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar Emocion"
+        context['regresa'] = 'lista_emociones'
+        return context   
+    
+
+
+# Parte de Cuerpo
+
+class lista_partes(ListView):
+    model = modelos.ParteCuerpo
+    template_name  = 'catalogos/list_parte.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Partes del cuerpo",
+            'add':"add_parte",
+            'add_label':'Nueva parte del cuerpo',
+            'update':'update_parte',  
+            'detalle':'detalle_parte',
+            'borra':'borra_parte',
+            'encabezados': {"nombre":"NOMBRE","parte":"PARTE DEL CUERPO", "tipo_punto":"TIPO DE PUNTO"},
+        }
+        context.update(datos)
+        return context    
+
+class add_parte(CreateView):
+    model = modelos.ParteCuerpo
+    success_url = reverse_lazy('lista_partes')
+    fields = ['nombre', ]
+    template_name = 'catalogos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nueva parte del cuerpo"
+        context['regresa'] = 'lista_partes'
+        return context
+
+
+class update_parte(UpdateView):
+    model = modelos.ParteCuerpo
+    fields = ['nombre', ]
+    success_url = reverse_lazy('lista_partes')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza parte del cuerpo"
+        context['regresa'] = 'lista_partes'
+        return context
+    
+   
+class detalle_parte(DetailView):
+    model = modelos.ParteCuerpo
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_partes')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle parte del cuerpo"
+        context['regresa'] = 'lista_partes'
+        return context   
+
+
+class borra_parte(DeleteView):
+    model = modelos.ParteCuerpo
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_partes')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar parte del cuerpo"
+        context['regresa'] = 'lista_partes'
+        return context   
+
+
+# Elementos
+
+
+class lista_elementos(ListView):
+    model = modelos.Elementos
+    template_name  = 'catalogos/lista_elementos.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Elementos",
+            'add':"add_elemento",
+            'add_label':'Nuevo Elemento',
+            'update':'update_elemento',  
+            'detalle':'detalle_elemento',
+            'borra':'borra_elemento',
+            'encabezados': {"nombre":"NOMBRE", "descripcion":"DESCRIPCION"},
+        }
+        context.update(datos)
+        return context    
+
+class add_elemento(CreateView):
+    model = modelos.Elementos
+    success_url = reverse_lazy('lista_elementos')
+    fields = ['nombre', 'descripcion']
+    template_name = 'catalogos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nuevo Elemento"
+        context['regresa'] = 'lista_elementos'
+        return context
+
+
+class update_elemento(UpdateView):
+    model = modelos.Elementos
+    fields = ['nombre', 'descripcion']
+    success_url = reverse_lazy('lista_elementos')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Elemento"
+        context['regresa'] = 'lista_elementos'
+        return context
+    
+   
+class detalle_elemento(DetailView):
+    model = modelos.Elementos
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Elemento"
+        context['regresa'] = 'lista_elementos'
+        context['datos'] = modelos.TipoPunto.objects.all()
+        return context   
+
+
+class borra_elemento(DeleteView):
+    model = modelos.Elementos
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar Elemento"
+        context['regresa'] = 'lista_elementos'
         return context   

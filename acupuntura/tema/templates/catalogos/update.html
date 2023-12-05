@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
 
-<div class="card shadow-lg">
   <h3 class="card-title">{{ titulo }}</h3>
-  <div class="card-body">
     <form action="" method="POST">
         {% csrf_token %} {{ form|crispy }}
   
@@ -12,8 +10,5 @@
           <a class="btn btn-dark" href="{{request.META.HTTP_REFERER|escape}}">Regresar</a>
         </div>
       </form>
-    </div>
-  </div>
-</div>
 
 {% endblock %}

@@ -47,6 +47,32 @@ path_puntos = [
     path('detalle_punto/<int:pk>/', puntos_views.detalle_punto.as_view(), name='detalle_punto'),
 ]
 
+path_emociones = [
+    path('lista_emociones', puntos_views.lista_emociones.as_view(), name='lista_emociones'),
+    path('add_emocion', puntos_views.add_emocion.as_view(), name='add_emocion'),
+    path('borra_emocion/<int:pk>/', puntos_views.borra_emocion.as_view(), name='borra_emocion'),
+    path('update_emocion/<int:pk>/', puntos_views.update_emocion.as_view(), name='update_emocion'),
+    path('detalle_emocion/<int:pk>/', puntos_views.detalle_emocion.as_view(), name='detalle_emocion'),
+]
+
+
+path_elementos = [
+    path('lista_elementos', puntos_views.lista_elementos.as_view(), name='lista_elementos'),
+    path('add_elemento', puntos_views.add_elemento.as_view(), name='add_elemento'),
+    path('borra_elemento/<int:pk>/', puntos_views.borra_elemento.as_view(), name='borra_elemento'),
+    path('update_elemento/<int:pk>/', puntos_views.update_elemento.as_view(), name='update_elemento'),
+    path('detalle_elemento/<int:pk>/', puntos_views.detalle_elemento.as_view(), name='detalle_elemento'),
+]
+
+
+path_parte_cuerpo = [
+    path('lista_partes', puntos_views.lista_partes.as_view(), name='lista_partes'),
+    path('add_parte', puntos_views.add_parte.as_view(), name='add_parte'),
+    path('borra_parte/<int:pk>/', puntos_views.borra_parte.as_view(), name='borra_parte'),
+    path('update_parte/<int:pk>/', puntos_views.update_parte.as_view(), name='update_parte'),
+    path('detalle_parte/<int:pk>/', puntos_views.detalle_parte.as_view(), name='detalle_parte'),
+]
+
 urlpatterns = [
     path('', tema_views.home_view, name='home'),    
     #path('accounts/profile/', tema_views.home_view, name='profile'),
@@ -61,7 +87,10 @@ urlpatterns = [
 + path_colores  \
 + path_canales  \
 + path_puntos   \
-+ path_enfermedades
++ path_enfermedades   \
++ path_emociones   \
++ path_elementos   \
++ path_parte_cuerpo
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

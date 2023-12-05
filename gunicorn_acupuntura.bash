@@ -1,8 +1,8 @@
 #!/bin/bash
-
+DIRECTORIO=$(pwd)
 NAME="acupuntura"                                  # Name of the application
-DJANGODIR=/var/www/python/medicina/acupuntura/acupuntura            # Django project directory
-SOCKFILE=/var/www/python/medicina/acupuntura/run/gunicorn.sock  # we will communicte using this unix socket
+DJANGODIR=$DIRECTORIO/acupuntura            # Django project directory
+SOCKFILE=$DIRECTORIO/run/gunicorn.sock  # we will communicte using this unix socket
 USER=acupuntura                                        # the user to run as
 GROUP=webapps                                     # the group to run as
 NUM_WORKERS=4                                     # how many worker processes should Gunicorn spawn

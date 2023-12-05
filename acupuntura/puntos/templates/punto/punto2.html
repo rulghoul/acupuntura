@@ -13,7 +13,7 @@
 
     <div class="row" style="max-width: 100%;">
         <div class="col-sm-1">
-			<ul class="nav nav-pills bg-dark navbar-dark" role="tablist">
+			<ul class="nav nav-pills" role="tablist">
 				<li class="nav-item">
 					<a class="nav-link active" data-toggle="pill" href="#Documentos">Documentos</a>
 				</li>
@@ -67,7 +67,7 @@
                 {% endwith %}
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info" >
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                 {% endwith %}
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info" >
                 </div>
             </div>
 
@@ -112,7 +112,7 @@
         
                 {% endwith %}
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info" >
                 </div>
             </div>
 
@@ -132,7 +132,7 @@
                 {% endwith %}
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
                 {% endwith %}
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info" >
                 </div>
             </div>
 
@@ -172,7 +172,7 @@
                 {% endwith %}
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" >
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info" >
                 </div>
             </div>
 
@@ -191,7 +191,7 @@
                 {% endwith %}
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
                 </div>
             </div>
 
@@ -205,34 +205,52 @@
                     {% endfor %}
                     {% for formss in videos %}
                     <div class="row">
-                        <div class="col-4">
-                            {{ formss|crispy }}
-                        </div>
-                        <div class="col-8">
-                            <iframe width="420" height="315"
-                            src="https://www.youtube.com/embed/{{ formss.instance.ligavideo }}">
-                            </iframe>
-                        </div>
+                        {{ formss|crispy }}
                     </div>
                     {% endfor %}
         
 
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
                 </div>
             </div>
 
             <div id="Emociones" class="container tab-pane fade">   
-                Construyendo Emociones
+                            
+                {% with emociones as formset %}  
+            
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                     {{ formss|crispy }}
+                {% endfor %}
+    
+                {% endwith %}
+    
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
                 </div>
             </div>
 
             <div id="Elementos" class="container tab-pane fade">   
-                Construyendo Elementos
+                
+                {% with elementos as formset %}  
+            
+                {{ formset.management_form }}
+                
+                {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                {% endfor %}
+                {% for formss in formset %}
+                     {{ formss|crispy }}
+                {% endfor %}
+    
+                {% endwith %}
                 <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary">
+                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
                 </div>
             </div>
 
