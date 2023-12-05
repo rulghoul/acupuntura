@@ -74,7 +74,7 @@ class PuntoAcupuntura(models.Model):
 
 class PuntoCaracteristicas(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    desccaracteristicas = RichTextField(db_column='DescCaracteristicas', verbose_name="Caracteristicas")
+    desccaracteristicas = RichTextField(db_column='DescCaracteristicas', verbose_name="Caracteristicas", blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -87,7 +87,7 @@ class PuntoCaracteristicas(models.Model):
 
 class PuntoDocumentos(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)     
-    ligadocumento = models.FileField(upload_to="documentos_puntos",db_column='LigaDocumento', max_length=255, verbose_name="Documento")
+    ligadocumento = models.FileField(upload_to="documentos_puntos",db_column='LigaDocumento', max_length=255, verbose_name="Documento", blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -100,7 +100,7 @@ class PuntoDocumentos(models.Model):
 
 class PuntoEnfermedad(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)    
-    cveenfermedad = models.ForeignKey(Enfermedad, models.CASCADE)    
+    cveenfermedad = models.ForeignKey(Enfermedad, models.CASCADE, blank=True)    
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -113,7 +113,7 @@ class PuntoEnfermedad(models.Model):
 
 class PuntoImagenes(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    ligaimagen = models.ImageField(upload_to='images_puntos',db_column='LigaImagen', max_length=255)
+    ligaimagen = models.ImageField(upload_to='images_puntos',db_column='LigaImagen', max_length=255, blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -126,7 +126,7 @@ class PuntoImagenes(models.Model):
 
 class PuntoImagenLocalizacion(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    ligaimagen = models.CharField(db_column='LigaImagen', max_length=255)
+    ligaimagen = models.CharField(db_column='LigaImagen', max_length=255, blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -139,7 +139,7 @@ class PuntoImagenLocalizacion(models.Model):
 
 class PuntoLocalizacion(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    desclocalizacion = RichTextField(db_column='DescLocalizacion', verbose_name="Localizacion")
+    desclocalizacion = RichTextField(db_column='DescLocalizacion', verbose_name="Localizacion", blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -152,7 +152,7 @@ class PuntoLocalizacion(models.Model):
 
 class PuntoSignificado(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    descsignificado = RichTextField(db_column='DescSignificado', verbose_name="Significado")
+    descsignificado = RichTextField(db_column='DescSignificado', verbose_name="Significado", blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -179,7 +179,7 @@ class PuntoSintomatologia(models.Model):
 
 class PuntoVideos(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    ligavideo = models.CharField(db_column='LigaVideo', max_length=255)
+    ligavideo = models.CharField(db_column='LigaVideo', max_length=255, blank=True)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 

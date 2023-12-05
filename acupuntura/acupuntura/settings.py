@@ -14,7 +14,7 @@ SECRET_KEY = "django-insecure-8%ql#_^_44wy^fdnc9sk2a@0sdvjesgbmy%)yj)j55kpoy*h0!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['acupuntura.ghoulrul.online', '127.0.0.1']
+ALLOWED_HOSTS = ['acupuntura.ghoulrul.online', '127.0.0.1', 'localhost']
 CSRF_TRUSTED_ORIGINS = ['https://acupuntura.ghoulrul.online']
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True

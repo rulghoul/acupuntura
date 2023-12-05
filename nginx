@@ -1,28 +1,28 @@
 upstream acupuntura_server {
-  server unix:/var/www/python/acupuntura/run/gunicorn.sock fail_timeout=0;
+  server unix:/var/www/python/medicina/acupuntura/run/gunicorn.sock fail_timeout=0;
 }
 
 server {
     listen 80;
     listen [::]:80;
     listen 443 ssl;
-    server_name medicinaalternativa.organiza-me.com;
+    server_name acupuntura.ghoulrul.online;
 
     #SSL/TLS
-    ssl_certificate /etc/letsencrypt/live/organiza-me.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/organiza-me.com/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/ghoulrul.online/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/ghoulrul.online/privkey.pem; # managed by Certbot
 
     client_max_body_size 4G;
 
-    access_log /var/www/python/acupuntura/logs/nginx-access.log;
-    error_log /var/www/python/acupuntura/logs/nginx-error.log;
+    access_log /var/www/python/medicina/acupuntura/logs/nginx-access.log;
+    error_log /var/www/python/medicina/acupuntura/logs/nginx-error.log;
 
     location /static {
-        alias   /var/www/python/acupuntura/acupuntura/acupuntura/static/;
+        alias   /var/www/python/medicina/acupuntura/acupuntura/acupuntura/static/;
     }
 
     location /media {
-        alias   /var/www/python/acupuntura/acupuntura/acupuntura/media/;
+        alias   /var/www/python/medicina/acupuntura/acupuntura/acupuntura/media/;
     }
 
     location / {

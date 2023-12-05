@@ -24,6 +24,7 @@ class PuntoAcupunturaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False  # No cerrar el tag del formulario
         self.helper.layout = Layout(
             Div(
                 Div('cvepunto',css_class='col-4'),
@@ -67,7 +68,7 @@ class PuntoEnfermedadForm(forms.ModelForm):
 
 PuntoEnfermedadFormSet = inlineformset_factory(
     PuntoAcupuntura, PuntoEnfermedad, form=PuntoEnfermedadForm,
-    extra=4, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+    extra=6, min_num=2, max_num=30, can_delete=True, can_delete_extra=True
 )
 
 class PuntoImagenesForm(forms.ModelForm):

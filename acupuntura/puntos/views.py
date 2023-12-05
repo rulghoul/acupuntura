@@ -303,14 +303,14 @@ def PuntoUpdate2(request, pk):
     punto = get_object_or_404(modelos.PuntoAcupuntura, pk=pk)    
     form = formularios.PuntoAcupunturaForm(request.POST or None, request.FILES or None,  instance=punto)
     # Initialize the formset    
-    imagenes =  formularios.PuntoImagenesFormSet(prefix='imagenes', instance=punto, data=request.POST or None, files=request.FILES or None),
-    documentos =  formularios.PuntoDocumentosFormSet(prefix='documentos', instance=punto, data=request.POST or None, files=request.FILES or None),
-    caracteristicas =  formularios.PuntoCaracteristicasFormSet(prefix='caracteristicas', instance=punto, data=request.POST or None, files=request.FILES or None),
-    significados =  formularios.PuntoSignificadoFormSet(prefix='significados', instance=punto, data=request.POST or None, files=request.FILES or None),
-    enfermedades =  formularios.PuntoEnfermedadFormSet(prefix='enfermedades', instance=punto, data=request.POST or None, files=request.FILES or None),
-    imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None),
-    localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None),
-    videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None),
+    imagenes =  formularios.PuntoImagenesFormSet(prefix='imagenes', instance=punto, data=request.POST or None, files=request.FILES or None)
+    documentos =  formularios.PuntoDocumentosFormSet(prefix='documentos', instance=punto, data=request.POST or None, files=request.FILES or None)
+    caracteristicas =  formularios.PuntoCaracteristicasFormSet(prefix='caracteristicas', instance=punto, data=request.POST or None, files=request.FILES or None)
+    significados =  formularios.PuntoSignificadoFormSet(prefix='significados', instance=punto, data=request.POST or None, files=request.FILES or None)
+    enfermedades =  formularios.PuntoEnfermedadFormSet(prefix='enfermedades', instance=punto, data=request.POST or None, files=request.FILES or None)
+    imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
+    localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
+    videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
     nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos') 
     if request.method == 'POST':
         print("Se empieza a procesar los formularios")
@@ -325,13 +325,14 @@ def PuntoUpdate2(request, pk):
                 for formm in eval(nombre):
                     if formm.is_valid():
                         print(f"Se guardara un form de {nombre}")
-                        formm.cvepunto = punto
                         formm.save()
                         #messages.success(request, f"{nombre} -- se guardaron cambios.")
                     else:
-                        print(request, f"{nombre} -- Please correct the errors below.")
+                        messages.warning(request, f"{nombre} -- Please correct the errors below.")
+                        print( f"{nombre} {formm.errors}")
                 
             except Exception as e:
+                messages.warning(request,f"fallo por: {e}")
                 print(f"fallo por: {e}")
 
         return redirect('update_punto2', pk=punto.pk)
