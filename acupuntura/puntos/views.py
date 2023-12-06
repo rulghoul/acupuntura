@@ -305,9 +305,9 @@ def PuntoUpdate2(request, pk):
     imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
-    emociones = formularios.EmocionesFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
-    elementos = formularios.ElementosFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
-    nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos') 
+    emociones = formularios.EmocionesFormSet(prefix='emociones', instance=punto, data=request.POST or None, files=request.FILES or None)
+    elementos = formularios.ElementosFormSet(prefix='elementos', instance=punto, data=request.POST or None, files=request.FILES or None)
+    nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos', 'elementos', 'emociones') 
     if request.method == 'POST':
         print("Se empieza a procesar los formularios")
         if form.has_changed():
@@ -324,14 +324,16 @@ def PuntoUpdate2(request, pk):
                         formm.save()
                         #messages.success(request, f"{nombre} -- se guardaron cambios.")
                     else:
-                        messages.warning(request, f"{nombre} -- Please correct the errors below.")
-                        print( f"{nombre} {formm.errors}")
+                        #messages.warning(request, f"{nombre} -- Please correct the errors below.")
+                        #print( f"{nombre} {formm.errors}")
+                        pass
                 
             except Exception as e:
-                messages.warning(request,f"fallo por: {e}")
-                print(f"fallo por: {e}")
+                #messages.warning(request,f"fallo por: {e}")
+                #print(f"fallo por: {e}")
+                pass
 
-        return redirect('update_punto2', pk=punto.pk)
+        return redirect('update_punto', pk=punto.pk)
     
     else:
         logging.info("Se empieza a procesar los formularios")

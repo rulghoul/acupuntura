@@ -173,7 +173,7 @@ class EmocionesForm(forms.ModelForm):
 
 EmocionesFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoEmocion, form=EmocionesForm,
-    extra=1, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
+    extra=1, min_num=1, max_num=3, can_delete=True, can_delete_extra=True
 )
 
 class ElementosForm(forms.ModelForm):
@@ -183,5 +183,5 @@ class ElementosForm(forms.ModelForm):
 
 ElementosFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoElemento, form=ElementosForm,
-    extra=1, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
+    extra=1, min_num=1, max_num=3, can_delete=True, can_delete_extra=True
 )
