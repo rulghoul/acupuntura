@@ -19,22 +19,22 @@
     </tr>
 </thead>
 <tbody id="CuerpoCatalogo">
-{% for elemento in object_list  %}
+{% for canal in object_list  %}
 <tr>
-    <td>{{ elemento.cvecanal }}</td>
-    <td>{{ elemento.nomcanal }}</td>
-    <td>{{ elemento.bandactivo|yesno:"Activo,Inactivo,Indefinido" }}</td>
+    <td>{{ canal.cvecanal }}</td>
+    <td>{{ canal.nomcanal }}</td>
+    <td>{{ canal.bandactivo|yesno:"Activo,Inactivo,Indefinido" }}</td>
     <td class="text-center">
       <!-- Read book buttons -->
-      <a type="button" class="read-book btn btn-sm btn-primary" href="{% url detalle elemento.pk %}">
+      <a type="button" class="read-book btn btn-sm btn-primary" href="{% url detalle canal.pk %}">
         <span class="fa fa-eye"></span>
       </a>
       <!-- Update book buttons -->
-      <a type="button" class="update-book btn btn-sm btn-info" href="{% url update elemento.pk %}" >
+      <a type="button" class="update-book btn btn-sm btn-info" href="{% url update canal.pk %}" >
         <span class="fa fa-pencil"></span>
       </a>
       <!-- Delete book buttons -->
-      <a type="button" class="delete-book btn btn-sm btn-danger" href="{% url borra elemento.pk %}">
+      <a type="button" class="delete-book btn btn-sm btn-danger" href="{% url borra canal.pk %}">
         <span class="fa fa-trash"></span>
       </a>
     </td>

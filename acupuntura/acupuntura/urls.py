@@ -24,9 +24,9 @@ path_imagen = [
 
 path_canales = [
     path('lista_canales', puntos_views.lista_canales.as_view(), name='lista_canales'),
-    path('add_canal', puntos_views.add_canal.as_view(), name='add_canal'),
+    path('add_canal', puntos_views.AddCanalForm, name='add_canal'),
     path('borra_canal/<int:pk>/', puntos_views.borra_canal.as_view(), name='borra_canal'),
-    path('update_canal/<int:pk>/', puntos_views.update_canal.as_view(), name='update_canal'),
+    path('update_canal/<int:pk>/', puntos_views.UpdateCanalForm, name='update_canal'),
     path('detalle_canal/<int:pk>/', puntos_views.detalle_canal.as_view(), name='detalle_canal'),
 ]
 
@@ -73,6 +73,18 @@ path_parte_cuerpo = [
     path('detalle_parte/<int:pk>/', puntos_views.detalle_parte.as_view(), name='detalle_parte'),
 ]
 
+path_sintomas = [
+    path('lista_sintomas', puntos_views.lista_partes.as_view(), name='lista_partes'),
+    path('add_sintoma', puntos_views.add_parte.as_view(), name='add_parte'),
+    path('borra_sintoma/<int:pk>/', puntos_views.borra_parte.as_view(), name='borra_parte'),
+    path('update_sintoma/<int:pk>/', puntos_views.update_parte.as_view(), name='update_parte'),
+    path('detalle_sintoma/<int:pk>/', puntos_views.detalle_parte.as_view(), name='detalle_parte'),
+]
+
+path_carga_automatica = [
+    path('carga_automatica', puntos_views.lista_partes.as_view(), name='lista_partes'),
+]
+
 urlpatterns = [
     path('', tema_views.home_view, name='home'),    
     #path('accounts/profile/', tema_views.home_view, name='profile'),
@@ -90,7 +102,7 @@ urlpatterns = [
 + path_enfermedades   \
 + path_emociones   \
 + path_elementos   \
-+ path_parte_cuerpo
++ path_sintomas
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

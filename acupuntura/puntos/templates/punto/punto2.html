@@ -38,12 +38,6 @@
 				<li class="nav-item">
 					<a class="nav-link" data-toggle="pill" href="#Caracteristicas">Caracteristicas</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="pill" href="#Emociones">Emociones</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="pill" href="#Elementos">Elementos</a>
-				</li>
 			</ul>
         </div>
 
@@ -215,44 +209,6 @@
                 </div>
             </div>
 
-            <div id="Emociones" class="container tab-pane fade">   
-                            
-                {% with emociones as formset %}  
-            
-                {{ formset.management_form }}
-                
-                {% for fields in formset.empty_form.hidden_fields %}
-                    {{ fields }}
-                {% endfor %}
-                {% for formss in formset %}
-                     {{ formss|crispy }}
-                {% endfor %}
-    
-                {% endwith %}
-    
-                <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
-                </div>
-            </div>
-
-            <div id="Elementos" class="container tab-pane fade">   
-                
-                {% with elementos as formset %}  
-            
-                {{ formset.management_form }}
-                
-                {% for fields in formset.empty_form.hidden_fields %}
-                    {{ fields }}
-                {% endfor %}
-                {% for formss in formset %}
-                     {{ formss|crispy }}
-                {% endfor %}
-    
-                {% endwith %}
-                <div class="col text-center">
-                    <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info">
-                </div>
-            </div>
 
         </div>        
     

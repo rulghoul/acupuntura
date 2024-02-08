@@ -305,8 +305,6 @@ def PuntoUpdate2(request, pk):
     imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
-    emociones = formularios.EmocionesFormSet(prefix='emociones', instance=punto, data=request.POST or None, files=request.FILES or None)
-    elementos = formularios.ElementosFormSet(prefix='elementos', instance=punto, data=request.POST or None, files=request.FILES or None)
     nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos', 'elementos', 'emociones') 
     if request.method == 'POST':
         print("Se empieza a procesar los formularios")
@@ -348,8 +346,6 @@ def PuntoUpdate2(request, pk):
             'localizaciones':localizaciones,
             'videos':videos,
             'punto': punto,
-            'elementos' : elementos,
-            'emociones' : emociones,
             'form' : form
         })
 
@@ -474,7 +470,7 @@ class lista_emociones(ListView):
 class add_emocion(CreateView):
     model = modelos.Emocion
     success_url = reverse_lazy('lista_emociones')
-    fields = ['nombre', 'parte', 'tipo_punto']
+    fields = ['nombre', ]
     template_name = 'catalogos/add.html'
 
     def get_context_data(self, **kwargs):
@@ -486,7 +482,7 @@ class add_emocion(CreateView):
 
 class update_emocion(UpdateView):
     model = modelos.Emocion
-    fields = ['nombre', 'parte', 'tipo_punto']
+    fields = ['nombre', ]
     success_url = reverse_lazy('lista_emociones')
     template_name = 'catalogos/update.html'
     
@@ -673,3 +669,60 @@ class borra_elemento(DeleteView):
         context['titulo'] = "Borrar Elemento"
         context['regresa'] = 'lista_elementos'
         return context   
+    
+
+
+def CanalForm(request, pk, titulo):
+    if pk:
+        canal = get_object_or_404(modelos.CanalAcupuntura, pk=pk)    
+    else:
+        canal = modelos.CanalAcupuntura()
+    form = formularios.CanalAcupunturaForm(request.POST or None, request.FILES or None,  instance=canal)
+    # Initialize the formset    
+    emociones =  formularios.EmocionesFormSet(prefix='emociones', instance=canal, data=request.POST or None, files=request.FILES or None)
+    elementos =  formularios.ElementosFormSet(prefix='elementos', instance=canal, data=request.POST or None, files=request.FILES or None)
+
+    nombres = ('emociones','elementos') 
+    if request.method == 'POST':
+        print("Se empieza a procesar los formularios")
+        if form.has_changed():
+            print(f"El canal cambio: {canal}")
+            if form.is_valid():
+                print("El canal guardara")
+                form.save()
+
+        for nombre in nombres:
+            try:
+                for formm in eval(nombre):
+                    if formm.is_valid():
+                        print(f"Se guardara un form de {nombre}")
+                        formm.save()
+                        #messages.success(request, f"{nombre} -- se guardaron cambios.")
+                    else:
+                        #messages.warning(request, f"{nombre} -- Please correct the errors below.")
+                        #print( f"{nombre} {formm.errors}")
+                        pass
+                
+            except Exception as e:
+                #messages.warning(request,f"fallo por: {e}")
+                #print(f"fallo por: {e}")
+                pass
+
+        return redirect('update_canal', pk=canal.pk)
+    
+    else:
+        logging.info("Se empieza a procesar los formularios")
+        # Render the template for GET and POST with errors
+        return render(request, 'punto/canal.html', {
+            'emociones':emociones,
+            'elementos':elementos,
+            'form' : form,
+            'titulo': titulo
+        })
+
+
+def UpdateCanalForm(request, pk):
+    return CanalForm(request, pk, "Actualiza Canal")
+
+def AddCanalForm(request):
+    return CanalForm(request, None, "Nuevo Canal")

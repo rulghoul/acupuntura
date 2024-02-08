@@ -11,11 +11,11 @@ from collections import OrderedDict
 class PuntoAcupunturaForm(forms.ModelForm):
     class Meta:
         model = modelos.PuntoAcupuntura
-        fields = ['cvepunto', 'nompunto', 'nomlargopunto', 'cvecanal', 'bandactivo']
+        fields = ['cvepunto', 'nompunto', 'nomchino', 'cvecanal', 'bandactivo']
         labels = {
             'cvepunto': 'Clave del punto',
             'nompunto': 'Nombre del punto',
-            'nomlargopunto': 'Nombre largo del punto',
+            'nomchino': 'Nombre Chino',
             'cvecanal': 'Canal de acupuntura',
             'bandactivo': 'Activo',
         }
@@ -32,7 +32,7 @@ class PuntoAcupunturaForm(forms.ModelForm):
                 css_class='row'
             ),
             Div(
-                Div('nomlargopunto',css_class='col-6'),
+                Div('nomchino',css_class='col-6'),
                 Div('bandactivo', css_class='col-2'),
                 Div(Submit('submit', 'Guardar', css_class='button white '), css_class='col-4'),
                 css_class='row'
@@ -168,20 +168,52 @@ class PuntoMultiForm(MultiModelForm):
 
 class EmocionesForm(forms.ModelForm):
     class Meta:
-        model = modelos.PuntoEmocion
+        model = modelos.CanalEmocion
         fields = ('emocion',)
 
 EmocionesFormSet = inlineformset_factory(
-    modelos.PuntoAcupuntura, modelos.PuntoEmocion, form=EmocionesForm,
+    modelos.CanalAcupuntura, modelos.CanalEmocion, form=EmocionesForm,
     extra=1, min_num=1, max_num=3, can_delete=True, can_delete_extra=True
 )
+
 
 class ElementosForm(forms.ModelForm):
     class Meta:
-        model = modelos.PuntoElemento
+        model = modelos.CanalElemento
         fields = ('elemento', )
 
 ElementosFormSet = inlineformset_factory(
-    modelos.PuntoAcupuntura, modelos.PuntoElemento, form=ElementosForm,
-    extra=1, min_num=1, max_num=3, can_delete=True, can_delete_extra=True
+    modelos.CanalAcupuntura, modelos.CanalElemento, form=ElementosForm,
+    extra=0, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
 )
+
+
+class CanalAcupunturaForm(forms.ModelForm):
+    class Meta:
+        model = modelos.CanalAcupuntura
+        fields = ['cvecanal', 'nomcanal', 'nomchino', 'bandactivo']
+        labels = {
+            'cvepunto': 'Clave del Canal',
+            'nomcanal': 'Nombre del Canal',
+            'nomchino': 'Nombre Chino',
+            'bandactivo': 'Activo',
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False  # No cerrar el tag del formulario
+        self.helper.layout = Layout(
+            Div(
+                Div('cvecanal',css_class='col-4'),
+                Div('nomcanal', css_class='col-4'),
+                Div('nomchino', css_class='col-4'),
+                css_class='row'
+            ),
+            Div(
+                Div('bandactivo', css_class='col-2'),
+                Div(Submit('submit', 'Guardar', css_class='button white '), css_class='col-4'),
+                css_class='row'
+            ),
+        )
+        self.fields['bandactivo'].widget.attrs['class'] =  'form-check-input'

@@ -4,8 +4,7 @@ from ckeditor.widgets import CKEditorWidget
 from django.utils import timezone
 
 class TipoPunto(models.Model):
-    tipopunto = models.CharField(db_column='clave', max_length=20)
-    descripciontipopunto = models.CharField(db_column='nombre', max_length=80)
+    descripcion = models.CharField(db_column='nombre', max_length=80)
     
     def __str__(self) -> str:
         return self.tipopunto
@@ -22,10 +21,10 @@ class ParteCuerpo(models.Model):
 class CanalAcupuntura(models.Model):
     cvecanal = models.CharField(db_column='CveCanal', max_length=20)
     nomcanal = models.CharField(db_column='NomCanal', max_length=80)
-    trayecto = models.CharField(max_length=20, default=None)
-    nomchino = models.CharField( max_length=20, default=None)
-    traduccion = models.CharField( max_length=80, default=None)
-    numtotalpuntos = models.CharField( max_length=20, default=None)
+    trayecto = models.CharField(max_length=20, null=True, blank=True, default='Trayecto')
+    nomchino = models.CharField( max_length=20, null=True, blank=True, default='nombre chino')
+    traduccion = models.CharField( max_length=80, null=True, blank=True, default='traduccion')
+    numtotalpuntos = models.CharField( max_length=20,null=True, blank=True, default='num')
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate', default=timezone.now)
 
@@ -65,7 +64,7 @@ class Sintoma(models.Model):
 class PuntoAcupuntura(models.Model):
     cvepunto =  models.CharField(db_column='CvePunto', max_length=20)  
     nompunto = models.CharField(db_column='NomPunto', max_length=80)
-    nomlargopunto = models.CharField(db_column='NomLargoPunto', max_length=300)
+    nomchino = models.CharField(db_column='NomChino', max_length=300, default="chino")
     cvecanal = models.ForeignKey(CanalAcupuntura, models.DO_NOTHING)
     #partecuerpo = models.ForeignKey(ParteCuerpo, models.DO_NOTHING,  default=1)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
@@ -214,15 +213,13 @@ class Sintomatologia(models.Model):
 # Parte de cuerpo y emocion
 
 class Emocion(models.Model):
-    nombre = models.CharField( max_length=80)
-    parte = models.ForeignKey(ParteCuerpo, models.CASCADE)
-    tipo_punto = models.ForeignKey(TipoPunto, models.CASCADE)
+    nombre = models.CharField( max_length=80, default='emocion')
 
     def __str__(self) -> str:
         return self.nombre
 
-class PuntoEmocion(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+class CanalEmocion(models.Model):
+    canal = models.ForeignKey(CanalAcupuntura, models.CASCADE)
     emocion = models.ForeignKey(Emocion, models.CASCADE)
 
 class Elementos(models.Model):
@@ -232,8 +229,8 @@ class Elementos(models.Model):
     def __str__(self) -> str:
         return self.nombre
 
-class PuntoElemento(models.Model):
-    cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
+class CanalElemento(models.Model):
+    canal = models.ForeignKey(CanalAcupuntura, models.CASCADE)
     elemento = models.ForeignKey(Elementos, models.CASCADE)
 
 

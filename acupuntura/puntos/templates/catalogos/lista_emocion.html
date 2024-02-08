@@ -13,8 +13,6 @@
     <thead class="thead-dark">
     <tr>
         <th>{{ encabezados.nombre }} </th>
-        <th>{{ encabezados.parte }} </th>
-        <th>{{ encabezados.tipo_punto }} </th>
         <th></th>
     </tr>
 </thead>
@@ -22,8 +20,6 @@
 {% for emocion in object_list  %}
 <tr>
     <td>{{ emocion.nombre }}</td>
-    <td>{{ emocion.parte }}</td>
-    <td>{{ emocion.tipo_punto }}</td>
     <td class="text-center">
       <!-- Read book buttons -->
       <a type="button" class="read-book btn btn-sm btn-primary" href="{% url detalle emocion.pk %}">
