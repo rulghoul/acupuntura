@@ -74,11 +74,11 @@ path_parte_cuerpo = [
 ]
 
 path_sintomas = [
-    path('lista_sintomas', puntos_views.lista_partes.as_view(), name='lista_partes'),
-    path('add_sintoma', puntos_views.add_parte.as_view(), name='add_parte'),
-    path('borra_sintoma/<int:pk>/', puntos_views.borra_parte.as_view(), name='borra_parte'),
-    path('update_sintoma/<int:pk>/', puntos_views.update_parte.as_view(), name='update_parte'),
-    path('detalle_sintoma/<int:pk>/', puntos_views.detalle_parte.as_view(), name='detalle_parte'),
+    path('lista_sintomas', puntos_views.lista_sintomas.as_view(), name='lista_sintomas'),
+    path('add_sintoma', puntos_views.add_sintoma.as_view(), name='add_sintoma'),
+    path('borra_sintoma/<int:pk>/', puntos_views.borra_sintoma.as_view(), name='borra_sintoma'),
+    path('update_sintoma/<int:pk>/', puntos_views.update_sintoma.as_view(), name='update_sintoma'),
+    path('detalle_sintoma/<int:pk>/', puntos_views.detalle_sintoma.as_view(), name='detalle_sintoma'),
 ]
 
 path_carga_automatica = [

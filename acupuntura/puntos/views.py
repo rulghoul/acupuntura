@@ -101,11 +101,11 @@ class lista_puntos(ListView):
             'add':"add_punto",
             'add_label':'Nuevo Punto',
             'update':'update_punto',  
-            'detalle':'update_punto',
+            'detalle':'detalle_punto',
             'borra':'borra_punto',
             'encabezados': {"clave":"CLAVE",
                             "nombre":"NOMBRE", 
-                            "largo":"NOMBRE LARGO",
+                            "largo":"NOMBRE CHINO",
                             "canal":"CANAL",
                             "activo":"ACTIVO"
                             },
@@ -292,7 +292,8 @@ class PuntoCreate(PuntoInline, CreateView):
                 'videos': formularios.PuntoVideoFormSet(self.request.POST or None, self.request.FILES or None, prefix='videos'),
             }
 
-
+#Este es el bueno
+        
 def PuntoUpdate2(request, pk):
     punto = get_object_or_404(modelos.PuntoAcupuntura, pk=pk)    
     form = formularios.PuntoAcupunturaForm(request.POST or None, request.FILES or None,  instance=punto)
@@ -686,7 +687,7 @@ def CanalForm(request, pk, titulo):
     if request.method == 'POST':
         print("Se empieza a procesar los formularios")
         if form.has_changed():
-            print(f"El canal cambio: {canal}")
+            canal.set
             if form.is_valid():
                 print("El canal guardara")
                 form.save()
@@ -726,3 +727,78 @@ def UpdateCanalForm(request, pk):
 
 def AddCanalForm(request):
     return CanalForm(request, None, "Nuevo Canal")
+
+
+
+# Sintomas
+
+class lista_sintomas(ListView):
+    model = modelos.Sintoma
+    template_name  = 'catalogos/list_sintomas.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Sintomas",
+            'add':"add_sintoma",
+            'add_label':'Nuevo Sintoma',
+            'update':'update_sintoma',  
+            'detalle':'detalle_sintoma',
+            'borra':'borra_sintoma',
+            'encabezados': {"sintoma":"SINTOMA"},
+        }
+        context.update(datos)
+        return context    
+
+class add_sintoma(CreateView):
+    model = modelos.Sintoma
+    success_url = reverse_lazy('lista_sintomas')
+    fields = ['sintoma', 'bandactivo']
+    template_name = 'catalogos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nuevo Sintoma"
+        context['regresa'] = 'lista_sintomas'
+        return context
+
+
+class update_sintoma(UpdateView):
+    model = modelos.Sintoma
+    fields = ['sintoma', 'bandactivo']
+    success_url = reverse_lazy('lista_sintomas')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Sintoma"
+        context['regresa'] = 'lista_sintomas'
+        return context
+    
+   
+class detalle_sintoma(DetailView):
+    model = modelos.Sintoma
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_sintomas')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Sintoma"
+        context['regresa'] = 'lista_sintomas'
+        return context   
+
+
+class borra_sintoma(DeleteView):
+    model = modelos.ParteCuerpo
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_partes')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar parte del cuerpo"
+        context['regresa'] = 'lista_partes'
+        return context   

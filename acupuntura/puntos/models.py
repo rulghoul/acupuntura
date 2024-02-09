@@ -49,7 +49,7 @@ class Enfermedad(models.Model):
         db_table = 'ENFERMEDAD'
 
 class Sintoma(models.Model):
-    sintoma = models.CharField(db_column='Sintoma', max_length=255)
+    sintoma = models.CharField(db_column='Sintoma', max_length=255, default="sintoma")
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
@@ -170,7 +170,7 @@ class PuntoSignificado(models.Model):
 
 class PuntoSintomatologia(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
-    nomorgpartecuerpo = models.ForeignKey(ParteCuerpo, models.DO_NOTHING)
+    sintoma = models.ForeignKey(Sintoma, models.DO_NOTHING,  null=True, blank=True, default=None)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 

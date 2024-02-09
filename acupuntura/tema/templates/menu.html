@@ -2,16 +2,6 @@
 {% load colores_del_sitio %}
 
 <ul class="nav nav-tabs">
-  <li class="nav-item dropdown" >
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
-    role="button" aria-haspopup="true" aria-expanded="false">
-    <span class="fa-solid fa-gear"></span>
-    Catalogos</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="{% url 'list_color' %}">Colores</a>
-      <a class="dropdown-item" href="{% url 'list_imagen' %}">Imagenes</a>
-    </div>
-  </li>
 
   <li>
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
@@ -20,13 +10,14 @@
     Acupuntura
   </a>
     <div class="dropdown-menu"  style="margin-left: 20px;">     
-      <a class="dropdown-item" href="{% url 'lista_canales' %}">Canales</a>
-      <a class="dropdown-item" href="{% url 'lista_enfermedades' %}">Enfermedades</a>
       <a class="dropdown-item" href="{% url 'lista_puntos' %}">Puntos</a>
+      <a class="dropdown-item" href="{% url 'lista_canales' %}">Canales</a>
       <div class="dropdown-divider"></div> 
-      <a class="dropdown-item" href="{% url 'lista_elementos' %}">Elementos</a>
-      <a class="dropdown-item" href="{% url 'lista_emociones' %}">Emociones</a>
-      <a class="dropdown-item" href="{% url 'lista_partes' %}">Partes del Cuerpo</a>
+      <a class="dropdown-item" href="{% url 'lista_enfermedades' %}">Enfermedades</a>
+      <a class="dropdown-item" href="{% url 'lista_sintomas' %}">Sintomas</a>
+      <div class="dropdown-divider"></div> 
+      <a class="dropdown-item" href="{% url 'lista_elementos' %}">Tipo Elementos</a>
+      <a class="dropdown-item" href="{% url 'lista_emociones' %}">Emociones</a>      
     </div>
   </li>
 
@@ -42,6 +33,18 @@
       <span class="fas fa-key"></span>
       Contraseña
     </a>
+    </div>
+  </li>
+
+
+  <li class="nav-item dropdown" >
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+    role="button" aria-haspopup="true" aria-expanded="false">
+    <span class="fa-solid fa-gear"></span>
+    Catalogos</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'list_color' %}">Colores</a>
+      <a class="dropdown-item" href="{% url 'list_imagen' %}">Imagenes</a>
     </div>
   </li>
  
