@@ -183,8 +183,9 @@ def PuntoForm(request, pk, titulo):
     enfermedades =  formularios.PuntoEnfermedadFormSet(prefix='enfermedades', instance=punto, data=request.POST or None, files=request.FILES or None)
     imagen_localizaciones =  formularios.PuntoImagenLocalizacionFormSet(prefix='imagen_localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
     localizaciones =  formularios.PuntoLocalizacionFormSet(prefix='localizaciones', instance=punto, data=request.POST or None, files=request.FILES or None)
+    sintomas =  formularios.PuntoSintomaFormSet(prefix='sintomas', instance=punto, data=request.POST or None, files=request.FILES or None)
     videos =  formularios.PuntoVideoFormSet(prefix='videos', instance=punto, data=request.POST or None, files=request.FILES or None)
-    nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos', 'elementos', 'emociones') 
+    nombres = ('imagenes','documentos','caracteristicas','significados','enfermedades','imagen_localizaciones','localizaciones','videos', 'elementos', 'emociones', 'sintomas') 
     if request.method == 'POST':
         print("Se empieza a procesar los formularios")
         if form.has_changed():
@@ -224,6 +225,7 @@ def PuntoForm(request, pk, titulo):
             'imagen_localizaciones':imagen_localizaciones,
             'localizaciones':localizaciones,
             'videos':videos,
+            'sintomas': sintomas,
             'punto': punto,
             'form' : form,
             'titulo': titulo
