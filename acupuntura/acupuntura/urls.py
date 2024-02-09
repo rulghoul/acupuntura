@@ -40,10 +40,9 @@ path_enfermedades = [
 
 path_puntos = [
     path('lista_puntos', puntos_views.lista_puntos.as_view(), name='lista_puntos'),
-    path('add_punto', puntos_views.add_punto.as_view(), name='add_punto'),
+    path('add_punto', puntos_views.PuntoAdd, name='add_punto'),
     path('borra_punto/<int:pk>/', puntos_views.borra_punto.as_view(), name='borra_punto'),
-    path('update_punto2/<int:pk>/', puntos_views.PuntoUpdate.as_view(), name='update_punto2'),
-    path('update_punto/<int:pk>/', puntos_views.PuntoUpdate2, name='update_punto'),
+    path('update_punto/<int:pk>/', puntos_views.PuntoUpdate, name='update_punto'),
     path('detalle_punto/<int:pk>/', puntos_views.detalle_punto.as_view(), name='detalle_punto'),
 ]
 

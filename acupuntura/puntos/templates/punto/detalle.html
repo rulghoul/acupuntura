@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+    <h3 class="card-title">{{ titulo }}</h3>
+        <p><strong>Clave:</strong> {{ object.cvepunto }}</p>
+        <p><strong>Nombre:</strong>{{ object.nompunto }}</p>
+        <p><strong>Nombre Chino:</strong> {{ object.nomchino }}</p>
+        <p><strong>Canal:</strong> {{ object.cvecanal.cvecanal }} - {{ object.cvecanal.nomcanal }}</p>
+        <p><strong>Estado:</strong> {{ object.bandactivo|yesno:"Activo,Inactivo,Indefinido" }}</p>
+        <p><strong>Ultima Actualizacion:</strong>{{ object.datelastupdate }}</p>
+        <a class="btn btn-primary" href="{% url regresa %}">Regresar</a>
+   
+{% endblock %}
