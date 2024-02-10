@@ -237,13 +237,13 @@ class CanalElemento(models.Model):
 # Modelos para la tabla de elementos
     
 class CategoriaElemento(models.Model):
-    nombre = models.CharField( max_length=30, default='', unique=True)
+    nombre = models.CharField( max_length=80, default='', unique=True)
     
     def __str__(self) -> str:
         return self.nombre
 
 class ValoresElemento(models.Model):
-    nombre = models.CharField( max_length=30, default='', unique=True)
+    nombre = models.CharField( max_length=80, default='', unique=True)
         
     def __str__(self) -> str:
         return self.nombre
