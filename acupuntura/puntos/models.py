@@ -234,3 +234,16 @@ class CanalElemento(models.Model):
     elemento = models.ForeignKey(Elementos, models.CASCADE)
 
 
+# Modelos para la tabla de elementos
+    
+class CategoriaElemento(models.Model):
+    nombre = models.CharField( max_length=30, default='')
+
+
+class ValoresElemento(models.Model):
+    nombre = models.CharField( max_length=30, default='')
+
+class TablaElementoElemento(models.Model):
+    tipo = models.ForeignKey(Elementos, models.DO_NOTHING)
+    categoria = models.ForeignKey(CategoriaElemento, models.DO_NOTHING)
+    valor = models.ForeignKey(ValoresElemento, models.DO_NOTHING)

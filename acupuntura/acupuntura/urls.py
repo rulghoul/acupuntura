@@ -80,8 +80,32 @@ path_sintomas = [
     path('detalle_sintoma/<int:pk>/', puntos_views.detalle_sintoma.as_view(), name='detalle_sintoma'),
 ]
 
+path_cat_elementos = [
+    path('lista_cat_elementos', puntos_views.lista_cat_elemento.as_view(), name='lista_cat_elementos'),
+    path('add_cat_elemento', puntos_views.add_cat_elemento.as_view(), name='add_cat_elemento'),
+    path('borra_cat_elemento/<int:pk>/', puntos_views.borra_cat_elemento.as_view(), name='borra_cat_elemento'),
+    path('update_cat_elemento/<int:pk>/', puntos_views.update_cat_elemento.as_view(), name='update_cat_elemento'),
+    path('detalle_cat_elemento/<int:pk>/', puntos_views.detalle_cat_elemento.as_view(), name='detalle_cat_elemento'),
+]
+
+path_val_elementos = [
+    path('lista_val_elementos', puntos_views.lista_val_elemento.as_view(), name='lista_val_elementos'),
+    path('add_val_elemento', puntos_views.add_val_elemento.as_view(), name='add_val_elemento'),
+    path('borra_val_elemento/<int:pk>/', puntos_views.borra_val_elemento.as_view(), name='borra_val_elemento'),
+    path('update_val_elemento/<int:pk>/', puntos_views.update_val_elemento.as_view(), name='update_val_elemento'),
+    path('detalle_val_elemento/<int:pk>/', puntos_views.detalle_val_elemento.as_view(), name='detalle_val_elemento'),
+]
+
+path_tab_elementos = [
+    path('lista_tab_elementos', puntos_views.lista_tab_elemento.as_view(), name='lista_tab_elementos'),
+    path('add_tab_elemento', puntos_views.add_tab_elemento.as_view(), name='add_tab_elemento'),
+    path('borra_tab_elemento/<int:pk>/', puntos_views.borra_tab_elemento.as_view(), name='borra_tab_elemento'),
+    path('update_tab_elemento/<int:pk>/', puntos_views.update_tab_elemento.as_view(), name='update_tab_elemento'),
+    path('detalle_tab_elemento/<int:pk>/', puntos_views.detalle_tab_elemento.as_view(), name='detalle_tab_elemento'),
+]
+
 path_carga_automatica = [
-    path('carga_automatica', puntos_views.lista_partes.as_view(), name='lista_partes'),
+    path('carga_automatica', puntos_views.lista_partes.as_view(), name='carga_automatica'),
 ]
 
 urlpatterns = [
@@ -101,7 +125,10 @@ urlpatterns = [
 + path_enfermedades   \
 + path_emociones   \
 + path_elementos   \
-+ path_sintomas
++ path_sintomas     \
++ path_cat_elementos     \
++ path_val_elementos     \
++ path_tab_elementos     
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

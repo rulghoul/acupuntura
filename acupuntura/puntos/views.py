@@ -538,6 +538,7 @@ class borra_elemento(DeleteView):
         return context   
     
 
+#Nuevo Formulario del Canal
 
 def CanalForm(request, pk, titulo):
     if pk:
@@ -668,3 +669,233 @@ class borra_sintoma(DeleteView):
         context['titulo'] = "Borrar parte del cuerpo"
         context['regresa'] = 'lista_partes'
         return context   
+
+
+# Valores Elemento
+
+
+class lista_val_elemento(ListView):
+    model = modelos.ValoresElemento
+    template_name  = 'elementos/lista_elemento.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Valores Elementos",
+            'add':"add_val_elemento",
+            'add_label':'Nuevo Valor Elemento',
+            'update':'update_val_elemento',  
+            'detalle':'detalle_val_elemento',
+            'borra':'borra_val_elemento',
+            'encabezados': {"nombre":"NOMBRE"},
+        }
+        context.update(datos)
+        return context    
+
+class add_val_elemento(CreateView):
+    model = modelos.ValoresElemento
+    success_url = reverse_lazy('lista_val_elementos')
+    fields = ['nombre']
+    template_name = 'elementos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nuevo Valor Elementos"
+        context['regresa'] = 'lista_val_elementos'
+        return context
+
+
+class update_val_elemento(UpdateView):
+    model = modelos.ValoresElemento
+    fields = ['nombre']
+    success_url = reverse_lazy('lista_val_elementos')
+    template_name = 'elementos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Elemento"
+        context['regresa'] = 'lista_val_elementos'
+        return context
+    
+   
+class detalle_val_elemento(DetailView):
+    model = modelos.ValoresElemento
+    template_name = 'elementos/detalle.html'
+    success_url = reverse_lazy('lista_val_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Valor Elemento"
+        context['regresa'] = 'lista_val_elementos'
+        context['datos'] = modelos.TipoPunto.objects.all()
+        return context   
+
+
+class borra_val_elemento(DeleteView):
+    model = modelos.ValoresElemento
+    template_name = 'elementos/borrar.html'
+    success_url = reverse_lazy('lista_val_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar Catalogo Elemento"
+        context['regresa'] = 'lista_val_elementos'
+        return context   
+    
+
+# CategotiaElemento
+
+
+class lista_cat_elemento(ListView):
+    model = modelos.CategoriaElemento
+    template_name  = 'elementos/lista_elemento.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Categoria Elementos",
+            'add':"add_cat_elemento",
+            'add_label':'Nuevo Categoria Elemento',
+            'update':'update_cat_elemento',  
+            'detalle':'detalle_cat_elemento',
+            'borra':'borra_cat_elemento',
+            'encabezados': {"nombre":"NOMBRE"},
+        }
+        context.update(datos)
+        return context    
+
+class add_cat_elemento(CreateView):
+    model = modelos.CategoriaElemento
+    success_url = reverse_lazy('lista_cat_elementos')
+    fields = ['nombre']
+    template_name = 'catalogos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nueva Categoria Elementos"
+        context['regresa'] = 'lista_cat_elementos'
+        return context
+
+
+class update_cat_elemento(UpdateView):
+    model = modelos.CategoriaElemento
+    fields = ['nombre']
+    success_url = reverse_lazy('lista_cat_elementos')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Elemento"
+        context['regresa'] = 'lista_cat_elementos'
+        return context
+    
+   
+class detalle_cat_elemento(DetailView):
+    model = modelos.CategoriaElemento
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_cat_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Catalogo Elemento"
+        context['regresa'] = 'lista_cat_elementos'
+        context['datos'] = modelos.TipoPunto.objects.all()
+        return context   
+
+
+class borra_cat_elemento(DeleteView):
+    model = modelos.CategoriaElemento
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_cat_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar Catalogo Elemento"
+        context['regresa'] = 'lista_cat_elementos'
+        return context   
+    
+
+
+# Tabla Elementos
+
+
+class lista_tab_elemento(ListView):
+    model = modelos.TablaElementoElemento
+    template_name  = 'elementos/tabla_elementos.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        datos = {
+            'titulo': "Tabla Elementos",
+            'add':"add_tab_elemento",
+            'add_label':'Nuevo Categoria Elemento',
+            'update':'update_tab_elemento',  
+            'detalle':'detalle_tab_elemento',
+            'borra':'borra_tab_elemento',
+            'encabezados': {"tipo":"NOMBRE", "categoria":"CATEGORIA", "valor": "VALOR"},
+        }
+        context.update(datos)
+        return context    
+
+class add_tab_elemento(CreateView):
+    model = modelos.TablaElementoElemento
+    success_url = reverse_lazy('lista_tab_elementos')
+    fields = ['nombre']
+    template_name = 'catalogos/add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Nueva Categoria Elementos"
+        context['regresa'] = 'lista_tab_elementos'
+        return context
+
+
+class update_tab_elemento(UpdateView):
+    model = modelos.TablaElementoElemento
+    fields = ['nombre']
+    success_url = reverse_lazy('lista_tab_elementos')
+    template_name = 'catalogos/update.html'
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualiza Elemento"
+        context['regresa'] = 'lista_tab_elementos'
+        return context
+    
+   
+class detalle_tab_elemento(DetailView):
+    model = modelos.TablaElementoElemento
+    template_name = 'catalogos/detalle.html'
+    success_url = reverse_lazy('lista_tab_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Detalle Tabla Elemento"
+        context['regresa'] = 'lista_tab_elementos'
+        context['datos'] = modelos.TipoPunto.objects.all()
+        return context   
+
+
+class borra_tab_elemento(DeleteView):
+    model = modelos.TablaElementoElemento
+    template_name = 'catalogos/borrar.html'
+    success_url = reverse_lazy('lista_tab_elementos')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Borrar Catalogo Elemento"
+        context['regresa'] = 'lista_tab_elementos'
+        return context   
+    
