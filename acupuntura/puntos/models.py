@@ -223,7 +223,7 @@ class CanalEmocion(models.Model):
     emocion = models.ForeignKey(Emocion, models.CASCADE)
 
 class Elementos(models.Model):
-    nombre = models.CharField( max_length=30, default='')
+    nombre = models.CharField( max_length=30, default='', unique=True)
     descripcion = models.CharField( max_length=240, default='')
     
     def __str__(self) -> str:
@@ -237,13 +237,21 @@ class CanalElemento(models.Model):
 # Modelos para la tabla de elementos
     
 class CategoriaElemento(models.Model):
-    nombre = models.CharField( max_length=30, default='')
-
+    nombre = models.CharField( max_length=30, default='', unique=True)
+    
+    def __str__(self) -> str:
+        return self.nombre
 
 class ValoresElemento(models.Model):
-    nombre = models.CharField( max_length=30, default='')
+    nombre = models.CharField( max_length=30, default='', unique=True)
+        
+    def __str__(self) -> str:
+        return self.nombre
 
-class TablaElementoElemento(models.Model):
+class TablaElemento(models.Model):
     tipo = models.ForeignKey(Elementos, models.DO_NOTHING)
     categoria = models.ForeignKey(CategoriaElemento, models.DO_NOTHING)
     valor = models.ForeignKey(ValoresElemento, models.DO_NOTHING)
+    
+    class Meta:
+        unique_together = ('tipo', 'categoria', 'valor')

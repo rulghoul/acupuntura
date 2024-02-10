@@ -828,7 +828,7 @@ class borra_cat_elemento(DeleteView):
 
 
 class lista_tab_elemento(ListView):
-    model = modelos.TablaElementoElemento
+    model = modelos.TablaElemento
     template_name  = 'elementos/tabla_elementos.html'
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -847,9 +847,9 @@ class lista_tab_elemento(ListView):
         return context    
 
 class add_tab_elemento(CreateView):
-    model = modelos.TablaElementoElemento
+    model = modelos.TablaElemento
     success_url = reverse_lazy('lista_tab_elementos')
-    fields = ['nombre']
+    fields = ['tipo', 'categoria', 'valor']
     template_name = 'catalogos/add.html'
 
     def get_context_data(self, **kwargs):
@@ -860,8 +860,8 @@ class add_tab_elemento(CreateView):
 
 
 class update_tab_elemento(UpdateView):
-    model = modelos.TablaElementoElemento
-    fields = ['nombre']
+    model = modelos.TablaElemento
+    fields = ['tipo', 'categoria', 'valor']
     success_url = reverse_lazy('lista_tab_elementos')
     template_name = 'catalogos/update.html'
     
@@ -874,7 +874,7 @@ class update_tab_elemento(UpdateView):
     
    
 class detalle_tab_elemento(DetailView):
-    model = modelos.TablaElementoElemento
+    model = modelos.TablaElemento
     template_name = 'catalogos/detalle.html'
     success_url = reverse_lazy('lista_tab_elementos')
 
@@ -888,7 +888,7 @@ class detalle_tab_elemento(DetailView):
 
 
 class borra_tab_elemento(DeleteView):
-    model = modelos.TablaElementoElemento
+    model = modelos.TablaElemento
     template_name = 'catalogos/borrar.html'
     success_url = reverse_lazy('lista_tab_elementos')
 

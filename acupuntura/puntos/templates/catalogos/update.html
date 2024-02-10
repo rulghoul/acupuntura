@@ -6,8 +6,8 @@
         {% csrf_token %} {{ form|crispy }}
   
         <div class="col text-center">        
-          <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-primary" id="submit-save">
-          <a class="btn btn-danger" href="{{request.META.HTTP_REFERER|escape}}">Regresar</a>
+          <input type="submit" name="submit" value="Guardar Cambios" class="btn btn-info" id="submit-save">
+          <a class="btn btn-secondary" href="{{request.META.HTTP_REFERER|escape}}">Regresar</a>
         </div>
       </form>
 

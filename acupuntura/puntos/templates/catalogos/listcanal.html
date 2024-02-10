@@ -6,7 +6,7 @@
 {# Load the tag library #}
 <div class="row" style="margin-bottom: 1em; margin-top: 1em;">
     <h3 class="col-5">{{ titulo }}</h3>
-    <a class="btn btn-primary col-2" href="{{ add }}">{{ add_label }}</a>
+    <a class="btn btn-secondary col-2" href="{{ add }}">{{ add_label }}</a>
     <input class="form-control col-4 ml-auto" id="myInput" type="text" placeholder="Buscar..">
 </div>
 <table class="table table-striped table-sm">
@@ -26,7 +26,7 @@
     <td>{{ canal.bandactivo|yesno:"Activo,Inactivo,Indefinido" }}</td>
     <td class="text-center">
       <!-- Read book buttons -->
-      <a type="button" class="read-book btn btn-sm btn-primary" href="{% url detalle canal.pk %}">
+      <a type="button" class="read-book btn btn-sm btn-secondary" href="{% url detalle canal.pk %}">
         <span class="fa fa-eye"></span>
       </a>
       <!-- Update book buttons -->
@@ -34,7 +34,7 @@
         <span class="fa fa-pencil"></span>
       </a>
       <!-- Delete book buttons -->
-      <a type="button" class="delete-book btn btn-sm btn-danger" href="{% url borra canal.pk %}">
+      <a type="button" class="delete-book btn btn-sm btn-dark" href="{% url borra canal.pk %}">
         <span class="fa fa-trash"></span>
       </a>
     </td>

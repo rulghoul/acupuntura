@@ -221,8 +221,8 @@ class CanalAcupunturaForm(forms.ModelForm):
                 css_class='row'
             ),
             Div(
+                Div( css_class='col-2'),
                 Div('bandactivo', css_class='col-2'),
-                Div(Submit('submit', 'Guardar', css_class='button white '), css_class='col-4'),
                 css_class='row'
             ),
         )
