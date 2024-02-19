@@ -49,12 +49,16 @@ def procesar_sintomas(datos_fila):
 def procesar_punto_significado(datos_fila):
     try:
         punto = models.PuntoAcupuntura.objects.get( cvepunto=datos_fila['CvePunto'] )
-        texto = procesa_texto( datos_fila['DescSignificado'] )
-        models.PuntoCaracteristicas.objects.get_or_create(cvepunto=punto, descsignificado=texto)
+        caracteristica = models.PuntoSignificado.objects.get(cvepunto=punto)
+        caracteristica.desccaracteristicas(datos_fila['DescSignificado'])
+        caracteristica.save()
     except KeyError as e:
         print(f"Falta un campo obligatorio en los datos de la fila: {e}")
-    except models.PuntoAcupuntura.DoesNotExist:
+    except models.PuntoAcupuntura.DoesNotExist:                
         print(f"No se encontró el punto con clave {datos_fila['CvePunto']}")
+    except models.PuntoSignificado.DoesNotExist:
+        if punto:
+            models.PuntoCaracteristicas.objects.get_or_create(cvepunto=punto, descsignificado=datos_fila['DescSignificado'])
 
 def procesar_punto_localizacion(datos_fila):
     try:
@@ -65,6 +69,9 @@ def procesar_punto_localizacion(datos_fila):
         print(f"Falta un campo obligatorio en los datos de la fila: {e}")
     except models.PuntoAcupuntura.DoesNotExist:
         print(f"No se encontró el punto con clave {datos_fila['CvePunto']}")
+    except models.PuntoCaracteristicas.DoesNotExist:
+        if punto:
+            models.PuntoCaracteristicas.objects.get_or_create(cvepunto=punto, descsignificado=datos_fila['DescSignificado'])
 
 def procesar_punto_caracteristicas(datos_fila):
     try:
@@ -170,14 +177,14 @@ def import_excel_file(excel_file, seleccionadas):
                         procesar_punto_localizacion(datos_fila) # Relacion 1 a 1
                     elif nombre_hoja == "PUNTO-CARACTERISTICAS":              
                         procesar_punto_caracteristicas(datos_fila) # Relacion 1 a 1
-                    elif nombre_hoja == "PUNTO-ENFERMEDAD":              
+                    elif nombre_hoja == "PUNTO-ENFERMEDAD":     # No repetir         
                         procesar_punto_enfermedad(datos_fila)
-                    elif nombre_hoja == "PUNTO-SINTOMATOLOGIA":
+                    elif nombre_hoja == "PUNTO-SINTOMATOLOGIA": # No repetir
                         procesar_punto_sintomas(datos_fila) 
                     
-                    elif nombre_hoja == "CANAL_TIPOPUNTO":
+                    elif nombre_hoja == "CANAL_TIPOPUNTO": # No repetir
                         procesar_canal_elemento(datos_fila)
-                    elif nombre_hoja == "CANAL-EMOCIONES":
+                    elif nombre_hoja == "CANAL-EMOCIONES": # No repetir
                         procesar_canal_emocion(datos_fila)
 
                     elif nombre_hoja == "PUNTO_TABLA_ELEMENTOS":

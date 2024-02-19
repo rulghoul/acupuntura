@@ -47,7 +47,7 @@ class PuntoCaracteristicasForm(forms.ModelForm):
 
 PuntoCaracteristicasFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoCaracteristicas, form=PuntoCaracteristicasForm,
-    extra=1, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
+    extra=0, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
 )
 
 class PuntoDocumentosForm(forms.ModelForm):
@@ -57,7 +57,7 @@ class PuntoDocumentosForm(forms.ModelForm):
 
 PuntoDocumentosFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoDocumentos, form=PuntoDocumentosForm,
-    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+    extra=1, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
 )
 
 class PuntoEnfermedadForm(forms.ModelForm):
@@ -108,7 +108,7 @@ class PuntoSignificadoForm(forms.ModelForm):
 
 PuntoSignificadoFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoSignificado, form=PuntoSignificadoForm,
-    extra=1, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
+    extra=0, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
 )
 
 class PuntoSintomaForm(forms.ModelForm):
