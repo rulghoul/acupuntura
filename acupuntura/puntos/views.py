@@ -15,6 +15,8 @@ from . import models as modelos
 
 from . import forms as formularios
 
+from. import excel_import as excel
+
 
 class lista_canales(ListView):
     model = modelos.CanalAcupuntura
@@ -899,3 +901,26 @@ class borra_tab_elemento(DeleteView):
         context['regresa'] = 'lista_tab_elementos'
         return context   
     
+def upload_excel(request):
+    
+    if request.method == 'POST':
+        logging.info("Se recibio post")
+        print(f"Se recibio  Post\nPOST: {request.POST}\nFILES {request.FILES}")
+        form = formularios.excel_upload_form(request.POST, request.FILES)
+        if form.is_valid():
+            excel_file = request.FILES['excel_file']
+            if excel_file:
+                # Usar la función importada para procesar el archivo
+                message = excel.import_excel_file(excel_file)                
+                print(message)
+                return HttpResponse(message)
+            else: 
+                print("No se pudo leer el archivo")
+        else:
+            print("No es valido el formulario")
+    else:
+        logging.info("Se recibio post")
+        print("Form subida excel not Post")
+        form = formularios.excel_upload_form()
+
+    return render(request, 'punto/upload_excel.html', {'form': form})

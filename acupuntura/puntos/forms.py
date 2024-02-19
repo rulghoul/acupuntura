@@ -227,3 +227,7 @@ class CanalAcupunturaForm(forms.ModelForm):
             ),
         )
         self.fields['bandactivo'].widget.attrs['class'] =  'form-check-input'
+
+
+class excel_upload_form(forms.Form):
+    excel_file = forms.FileField()

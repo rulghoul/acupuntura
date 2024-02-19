@@ -105,7 +105,7 @@ path_tab_elementos = [
 ]
 
 path_carga_automatica = [
-    path('carga_automatica', puntos_views.lista_partes.as_view(), name='carga_automatica'),
+    path('carga_automatica', puntos_views.upload_excel, name='carga_automatica'),
 ]
 
 urlpatterns = [
@@ -128,7 +128,8 @@ urlpatterns = [
 + path_sintomas     \
 + path_cat_elementos     \
 + path_val_elementos     \
-+ path_tab_elementos     
++ path_tab_elementos    \
++ path_carga_automatica 
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
