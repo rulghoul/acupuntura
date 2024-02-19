@@ -203,9 +203,9 @@ def import_excel_file(excel_file, seleccionadas):
                     except Exception as e:
                         print(f"Fallo el procesamiento de :{nombre_hoja} - {fila} --- {e}" )    
 
-            return "Archivo procesado exitosamente"    
+            return f"Archivo procesado exitosamente las hojas: {hojas_a_procesar}"    
         else:
             return f"El archivo no tiene el formato adecuado para ser procesado {wb.sheetnames}"
     except:
-        return f"No se pudo abrir el archivo"
+        return f"No se pudo abrir el archivo {excel_file}"
 
