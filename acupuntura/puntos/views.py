@@ -909,11 +909,12 @@ def upload_excel(request):
         form = formularios.excel_upload_form(request.POST, request.FILES)
         if form.is_valid():
             excel_file = request.FILES['excel_file']
+            seleccionadas = form.cleaned_data['seleccionadas']
             if excel_file:
                 # Usar la función importada para procesar el archivo
-                message = excel.import_excel_file(excel_file)                
-                print(message)
-                return HttpResponse(message)
+                message = excel.import_excel_file(excel_file, seleccionadas) 
+                messages.success(request, message)
+                return redirect('carga_automatica') 
             else: 
                 print("No se pudo leer el archivo")
         else:

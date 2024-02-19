@@ -4,13 +4,31 @@
  
   <h3 class="card-title">Carga de Archivo Excel para Catalogos</h3>
 
-    <form action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %} {{ form|crispy }}
+  {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
 
+    <form action="" method="POST" enctype="multipart/form-data" id="excel-upload-form">
+      {% csrf_token %} {{ form|crispy }}
       <div class="col text-center">        
+        <button type="button" class="btn btn-secondary" onclick="seleccionarTodos(true);">Seleccionar Todos</button>
+        <button type="button" class="btn btn-secondary" onclick="seleccionarTodos(false);">Deseleccionar Todos</button>
         <input type="submit" name="submit" value="Subir" class="btn btn-info" id="submit-save">
         <a class="btn btn-secondary" href="{{request.META.HTTP_REFERER|escape}}">Regresar</a>
       </div>
     </form>
+
+    <script>
+      function seleccionarTodos(seleccionar) {
+          const checkboxes = document.querySelectorAll('#excel-upload-form input[type="checkbox"]');
+          checkboxes.forEach(checkbox => {
+              checkbox.checked = seleccionar;
+          });
+      }
+      </script>
 
 {% endblock %}

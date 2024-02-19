@@ -15,8 +15,6 @@ class ParteCuerpo(models.Model):
     def __str__(self) -> str:
         return self.nombre
 
-    class Meta:        
-        db_table = 'PARTE_CUERPO'
 
 class CanalAcupuntura(models.Model):
     cvecanal = models.CharField(db_column='CveCanal', max_length=20, unique=True)
@@ -31,22 +29,18 @@ class CanalAcupuntura(models.Model):
     def __str__(self) -> str:
         return self.nomcanal
 
-    class Meta:        
-        db_table = 'CANAL_ACUPUNTURA'
 
 
 
 class Enfermedad(models.Model):
-    cveenfermedad = models.CharField(db_column='CveEnfermedad', max_length=80, unique=True)
-    nomenfermedad = models.CharField(db_column='NomEnfermedad', max_length=255)
+    cveenfermedad = models.CharField(db_column='CveEnfermedad', max_length=255, unique=True)
+    nomenfermedad = models.CharField(db_column='NomEnfermedad', max_length=255, null=True, blank=True, default= None)
     bandactivo = models.BooleanField(db_column='BandActivo', default=True)
     datelastupdate = models.DateTimeField(db_column='DateLastUpdate',default=timezone.now)
 
     def __str__(self) -> str:
         return self.nomenfermedad
-    
-    class Meta:        
-        db_table = 'ENFERMEDAD'
+
 
 class Sintoma(models.Model):
     sintoma = models.CharField(db_column='Sintoma', max_length=255, default="sintoma", unique=True)
@@ -56,8 +50,6 @@ class Sintoma(models.Model):
     def __str__(self) -> str:
         return self.sintoma
 
-    class Meta:        
-        db_table = 'SINTOMA'
 
 
 
@@ -72,9 +64,7 @@ class PuntoAcupuntura(models.Model):
 
     def __str__(self) -> str:
         return self.nompunto
-    
-    class Meta:        
-        db_table = 'PUNTO_ACUPUNTURA'
+
 
 
 class PuntoCaracteristicas(models.Model):
@@ -86,8 +76,6 @@ class PuntoCaracteristicas(models.Model):
     def __str__(self) -> str:
         return self.desccaracteristicas
 
-    class Meta:        
-        db_table = 'PUNTO_CARACTERISTICAS'
 
 
 class PuntoDocumentos(models.Model):
@@ -99,8 +87,6 @@ class PuntoDocumentos(models.Model):
     def __str__(self) -> str:
         return self.ligadocumento
 
-    class Meta:        
-        db_table = 'PUNTO_DOCUMENTOS'
 
 
 class PuntoEnfermedad(models.Model):
@@ -112,12 +98,6 @@ class PuntoEnfermedad(models.Model):
     def __str__(self) -> str:
         return self.cveenfermedad
     
-    class Meta:
-        unique_together = ('punto', 'enfermedad')
-
-    class Meta:        
-        db_table = 'PUNTO_ENFERMEDAD'
-
 
 class PuntoImagenes(models.Model):
     cvepunto = models.ForeignKey(PuntoAcupuntura, models.CASCADE)
@@ -128,8 +108,6 @@ class PuntoImagenes(models.Model):
     def __str__(self) -> str:
         return self.ligaimagen
 
-    class Meta:        
-        db_table = 'PUNTO_IMAGENES'
 
 
 class PuntoImagenLocalizacion(models.Model):
@@ -141,8 +119,6 @@ class PuntoImagenLocalizacion(models.Model):
     def __str__(self) -> str:
         return self.ligaimagen
     
-    class Meta:        
-        db_table = 'PUNTO_IMAGEN_LOCALIZACION'
 
 
 class PuntoLocalizacion(models.Model):
@@ -154,8 +130,6 @@ class PuntoLocalizacion(models.Model):
     def __str__(self) -> str:
         return self.desclocalizacion
     
-    class Meta:        
-        db_table = 'PUNTO_LOCALIZACION'
 
 
 class PuntoSignificado(models.Model):
@@ -166,9 +140,7 @@ class PuntoSignificado(models.Model):
 
     def __str__(self) -> str:
         return self.descsignificado
-    
-    class Meta:        
-        db_table = 'PUNTO_SIGNIFICADO'
+
 
 
 class PuntoSintomatologia(models.Model):
@@ -184,8 +156,6 @@ class PuntoSintomatologia(models.Model):
     class Meta:
         unique_together = ('punto', 'sintoma')
     
-    class Meta:        
-        db_table = 'PUNTO_SINTOMATOLOGIA'
 
 
 class PuntoVideos(models.Model):
@@ -197,8 +167,6 @@ class PuntoVideos(models.Model):
     def __str__(self) -> str:
         return self.ligavideo
     
-    class Meta:        
-        db_table = 'PUNTO_VIDEOS'
 
 
 
@@ -212,8 +180,6 @@ class Sintomatologia(models.Model):
     def __str__(self) -> str:
         return self.sintoma
     
-    class Meta:        
-        db_table = 'SINTOMATOLOGIA'
 
 
 # Parte de cuerpo y emocion

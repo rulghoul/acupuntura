@@ -63,7 +63,7 @@ PuntoDocumentosFormSet = inlineformset_factory(
 class PuntoEnfermedadForm(forms.ModelForm):
     class Meta:
         model = modelos.PuntoEnfermedad
-        fields = ('cveenfermedad', )
+        fields = ('enfermedad', )
 
 PuntoEnfermedadFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoEnfermedad, form=PuntoEnfermedadForm,
@@ -98,7 +98,7 @@ class PuntoLocalizacionForm(forms.ModelForm):
 
 PuntoLocalizacionFormSet = inlineformset_factory(
     modelos.PuntoAcupuntura, modelos.PuntoLocalizacion, form=PuntoLocalizacionForm,
-    extra=2, min_num=1, max_num=4, can_delete=True, can_delete_extra=True
+    extra=0, min_num=1, max_num=1, can_delete=True, can_delete_extra=True
 )
 
 class PuntoSignificadoForm(forms.ModelForm):
@@ -230,4 +230,23 @@ class CanalAcupunturaForm(forms.ModelForm):
 
 
 class excel_upload_form(forms.Form):
+    HOJAS_OPCIONES = [
+    ("ENFERMEDADES", "ENFERMEDADES"),
+    ("SINTOMAS", "SINTOMAS"),
+    ("CANALES", "CANALES"),
+    ("EMOCIONES", "EMOCIONES"),
+    ("PUNTOS", "PUNTOS"),
+    ("PUNTO_SIGNIFICADO", "PUNTO SIGNIFICADO"),
+    ("PUNTO_LOCALIZACION", "PUNTO LOCALIZACION"),
+    ("PUNTO-CARACTERISTICAS", "PUNTO CARACTERISTICAS"),
+    ("PUNTO-ENFERMEDAD", "PUNTO ENFERMEDAD"),
+    ("PUNTO-SINTOMATOLOGIA", "PUNTO SINTOMATOLOGIA"),
+    ("CANAL_TIPOPUNTO", "CANAL TIPOPUNTO"),
+    ("CANAL-EMOCIONES", "CANAL EMOCIONES"),
+    ("PUNTO_TABLA_ELEMENTOS", "PUNTO TABLA ELEMENTOS"),]
     excel_file = forms.FileField()
+    seleccionadas = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=HOJAS_OPCIONES
+    )
